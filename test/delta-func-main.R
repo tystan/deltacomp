@@ -1,4 +1,6 @@
 
+setwd("~/Documents/deltacomp/test/")
+
 # library(extrafont)
 # fonts()[fonts()=="CM Roman"]
 
@@ -9,8 +11,11 @@ add_alpha <- function(col, alpha = 1) {
   )
 }
 
+stdise<-function(x) return((x-mean(x))/sd(x))
 
 
+
+source("../R/req-packages.R") # required packages
 source("../R/delta-func.R") # to get get_plus_minus_changes() function
 
 
@@ -19,9 +24,41 @@ source("../R/delta-func.R") # to get get_plus_minus_changes() function
 # create variables here #
 #########################
 
+max_mins<-24*60
+
+set.seed(1234)
+n<-100
+sb<-round(rchisq(n,df=500^(1/1.3))^1.3,0) # sedentary behaviour
+summary(sb)
+lpa<-round(rchisq(n,df=300^(1/1.3))^1.3,0) # lo physical activity
+summary(lpa)
+mvpa<-round(rchisq(n,df=75^(1/1.3))^1.3,0) # mod-to-vig physical activity
+summary(mvpa)
+sl<-max_mins-sb-lpa-mvpa # sleep, the remainder of the composition
+summary(sl)
+
+
+sibs<-pmin(rbinom(n,size=9,p=0.2),4)
+table(sibs)
+parents<-rbinom(n,size=1,p=0.85)+1
+table(parents)
+ed<-pmin(rbinom(n,size=4,p=0.4),2)
+table(ed)
+
+# outcome variable
+fat<-20+2*(
+  +0.1*stdise(sl)+0.6*stdise(sb)-0.2*stdise(lpa)-0.6*stdise(mvpa)+
+  -0.1*stdise(sibs^2)-0.01*(parents-1)-0.01*stdise(ed^2)
+)+rnorm(n,sd=3)
+summary(fat)
+
+# make 
+sibs<-factor(sibs)
+parents<-factor(parents)
+ed<-factor(ed)
 
 fat_data<-data.frame(fat,sl,sb,lpa,mvpa,sibs,parents,ed)
-
+summary(fat_data)
 
 
 
@@ -37,7 +74,7 @@ fat_data<-data.frame(fat,sl,sb,lpa,mvpa,sibs,parents,ed)
   , verbose=FALSE
 ))
 
-changes[,"delta"]<-changes[,"delta"]*60*24 # make minutes
+changes[,"delta"]<-changes[,"delta"]*max_mins # make minutes
 changes
 
 
@@ -54,7 +91,7 @@ min_pred<-min(changes[,"ci_lo"],changes[,"ci_up"])
 max_pred<-max(changes[,"ci_lo"],changes[,"ci_up"])
 
 
-pdf("../fig/delta_comps.pdf",width=8,height=8)
+png("../fig/delta_comps.png",width=6,height=6,units="in",res=300)
 # pdf("output/delta_comps_serif.pdf",width=8,height=8,family="CM Roman")
 
 	par(mfrow=c(2,2),lend=2)
@@ -67,7 +104,8 @@ pdf("../fig/delta_comps.pdf",width=8,height=8)
 		ci_x<-c(x,rev(x))
 		ci_y<-c(changes[which_i,"ci_lo"],rev(changes[which_i,"ci_up"]))
 		plot(x,y,type="n",bty="n",xlim=c(min_delta,max_delta),ylim=c(min_pred,max_pred)
-			,xlab="Time change in activity (min)",ylab="Change in fat percentage",las=1)
+			,xlab="Time change in activity (min)",ylab="Change in fat percentage",las=1
+			,cex.axis=0.7,cex.lab=0.85)
 		abline(v=0,col=add_alpha("black",0.1),lty=2)
 		abline(h=0,col=add_alpha("black",0.1),lty=2)
 		lines(x,y,col=cols[i])
@@ -79,6 +117,7 @@ pdf("../fig/delta_comps.pdf",width=8,height=8)
 			,lwd=c(3,NA)
 			,pch=c(NA,15)
 			,bty="n"
+			,cex=0.9
 		)
 
 	}
