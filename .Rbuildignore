@@ -1,2 +1,4 @@
 fig
 
+^.*\.Rproj$
+^\.Rproj\.user$

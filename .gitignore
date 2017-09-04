@@ -2,5 +2,6 @@
 *.history
 *.DS_Store
 *.sh
+*.Rproj
 
-
+.Rproj.user
