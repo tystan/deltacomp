@@ -1,3 +1,6 @@
 
 *.history
 *.DS_Store
+*.sh
+
+
