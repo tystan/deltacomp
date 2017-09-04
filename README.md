@@ -33,4 +33,4 @@ get_plus_minus_changes(
 
 Output is a data.frame that can be turned into the plot below:
 
-![](https://github.com/tystan/deltacomp/blob/master/fig/delta_comps.png)
+![](https://github.com/tystan/deltacomp/blob/master/delta_comps.png)
