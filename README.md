@@ -2,9 +2,7 @@
 Functions to analyse compositional data and produce confidence intervals for relative increases and decreases in the compositional components
 
 ## Background
-Please read Dumuid et al. (2017) for details.
-
-(more to come)
+Please read [Dumuid et al. (2017)](https://doi.org/10.1177/0962280217710835) for details.
 
 ## Example usage
 
