@@ -31,7 +31,7 @@ get_plus_minus_changes(
     y = "fat",
     comps = c("sl", "sb", "lpa", "mvpa"),
     covars = c("sibs", "parents", "ed"),
-    deltas = seq(-60, 60, b = 5) / (24 * 60),
+    deltas = seq(-60, 60, by = 5) / (24 * 60),
     comparisons = "one-v-all",
     alpha = 0.05,
     verbose = FALSE
