@@ -14,27 +14,27 @@ library(deltacomp)
 ?get_plus_minus_changes
 
 get_plus_minus_changes(
-    dataf=fat_data,
-    y="fat",
-    comps=c("sl","sb","lpa","mvpa"),
-    covars=c("sibs","parents","ed"),
-    deltas=seq(-60,60,by=5)/(24*60),
-    comparisons="one-v-one",
-    alpha=0.05,
-    verbose=FALSE
+    dataf = fat_data,
+    y = "fat",
+    comps = c("sl", "sb", "lpa", "mvpa"),
+    covars = c("sibs", "parents", "ed"),
+    deltas = seq(-60, 60, by = 5) / (24 * 60),
+    comparisons = "one-v-one",
+    alpha = 0.05,
+    verbose = FALSE
 )
 
 # OR
 
 get_plus_minus_changes(
-    dataf=fat_data,
-    y="fat",
-    comps=c("sl","sb","lpa","mvpa"),
-    covars=c("sibs","parents","ed"),
-    deltas=seq(-60,60,by=5)/(24*60),
-    comparisons="one-v-all",
-    alpha=0.05,
-    verbose=FALSE
+    dataf = fat_data,
+    y = "fat",
+    comps = c("sl", "sb", "lpa", "mvpa"),
+    covars = c("sibs", "parents", "ed"),
+    deltas = seq(-60, 60, by=5) / (24 * 60),
+    comparisons = "one-v-all",
+    alpha = 0.05,
+    verbose = FALSE
 )
 
 ```
