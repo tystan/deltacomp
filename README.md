@@ -42,6 +42,6 @@ get_plus_minus_changes(
 
 ## Output
 
-Output is a data.frame that can be turned into the plot below:
+Output is a `data.frame` that can be turned into the plot below:
 
 ![](https://github.com/tystan/deltacomp/blob/master/delta_comps.png)
