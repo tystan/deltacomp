@@ -7,7 +7,7 @@ Please see [Dumuid et al. (2017)](https://doi.org/10.1177/0962280217710835) for 
 ## Example usage
 
 ```R
-library(devtools) # see http://cran.r-project.org/web/packages/devtools/README.html
+library(devtools) # see https://www.r-project.org/nosvn/pandoc/devtools.html
 devtools::install_github('tystan/deltacomp')
 library(deltacomp)
 ### see help file to run example
