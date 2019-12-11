@@ -95,7 +95,8 @@ get_plus_minus_changes<-function(
   head(dataf)
 
 
-  X<-dataf[,!(colnames(dataf) %in% comps)]
+  # X<-dataf[,!(colnames(dataf) %in% comps)] # this only removes original comp vars - INCORRECT!
+  X<-dataf[, colnames(dataf) %in% c(y, ilr_names, covars)] # Better now - keep all required cols in df
   head(X)
   class(X)
   lm_formula <- as.formula(paste(y,"~."))
