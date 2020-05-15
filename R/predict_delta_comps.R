@@ -135,8 +135,7 @@ predict_delta_comps <- function(
   preds$sig <- ifelse(preds$ci_lo <= 0 & preds$ci_up >= 0, "", "*")
   
   
-  ret_obj <- preds
-  
+  ret_obj <- NULL
   if (verbose) {
     ret_obj <- 
       list(
@@ -147,6 +146,10 @@ predict_delta_comps <- function(
         linmod = lm_X,
         n = c(n = n, n_comp = n_comp, n_covar = n_covar, n_delta = n_delta)
       )
+    class(ret_obj) <- c("verbose_deltacomp_obj", "deltacomp_obj")
+  } else {
+    ret_obj <- preds
+    class(ret_obj) <- c(class(preds), "deltacomp_obj")
   }
   
   return(ret_obj)

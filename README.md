@@ -4,6 +4,7 @@
 The current version (v0.2.0, updated 2020-05-15) is currently in beta testing with the following list of to-dos:
 
 * complete general testing
+* add testing for `NA` values in input datasets
 * unit tests and commenting
 * add plotting function
     
@@ -13,21 +14,22 @@ Changes since last version (v0.1.0):
 * refactor and modularisation of `predict_delta_comps()`
 * the three types of reallocation (`prop-realloc`, `one-v-one` or `one-v-all`) are now working (based on testing so far, unit tests pending)
 * includes more checks to throw errors for obvious malfunctions
+* the mean composition now correctly uses the geometric mean (on the simplex) and not the naive arithmetic mean of the compositions
 
 
 
-# deltacomp
+# The `deltacomp` package
+
 Functions to analyse compositional data and produce predictions (with confidence intervals) for relative increases and decreases in the compositional components
 
 ## Background
 
-For an outcome variable $Y$, $D$ compositional variables ($x_1, ..., x_D$) and $C$ covariates ($z_1, ..., z_C$); this package fits the compoistional data analysis model
+For an outcome variable `Y`, *D* compositional variables (`x_1, ..., x_D`) and *C* covariates (`z_1, ..., z_C`); this package fits the compoistional data analysis model (notation inexact):
 
-$$
-Y_i = \beta_0 + \beta_1 ilr_{1,i} + ... + \beta_{D-1} ilr_{D-1,i}+ \alpha_1 z_{1,i} + ... + \alpha_C z_{C,i} + e_i
-$$
 
-where $ilr_{j,i}$ are the isometric log ratio variables derived from the $D$ compositional variables ($x_1, ..., x_D$). The package then makes predictions in alterations of the time-use variables (the linearly dependennt set of compositional components) based on this model. 
+`Y = b_0 + b_1 ilr_1 + ... + b_{D-1} ilr_{D-1} + a_1 z_1 + ... + a_C z_C + e`
+
+where `ilr_i` are the isometric log ratio variables derived from the *D* compositional variables (`x_1, ..., x_D`), `b_0, ...,  b_{D-1}, a_1, ..., a_C` are parameters to be estimated and `e` is the error. The package then makes predictions in alterations of the time-use variables (the linearly dependennt set of compositional components) based on this model. 
 
 Please see [Dumuid et al. (2017a)](https://doi.org/10.1177/0962280217710835) for more details on compositional data analysis.
 
@@ -36,8 +38,15 @@ For information on outcome prediction with time-use exchange between two composi
 
 
 Information on outcome prediction with time-use exchange between all compositional components (the `comparisons = "prop-realloc"` and `comparisons = "one-vs-all"` options of the `predict_delta_comps()` function), please see ...
-gamma
 
+## Datasets in package
+
+Two datasets are supplied with the package:
+
+* `fat_data` and 
+* `fairclough`. 
+
+The `fairclough` dataset was kindly provided by the authors of [Fairclough et al. (2017)](https://doi.org/10.1186/s12966-017-0521-z). `fat_data` is a randomly generated test dataset that might roughly mimic a real dataset.
 
 ## Example usage
 
