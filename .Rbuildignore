@@ -2,3 +2,4 @@ fig
 
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^\.Rhistory$
