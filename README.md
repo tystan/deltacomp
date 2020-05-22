@@ -31,13 +31,16 @@ For an outcome variable `Y`, *D* compositional variables (`x_1, ..., x_D`) and *
 
 where `ilr_i` are the isometric log ratio variables derived from the *D* compositional variables (`x_1, ..., x_D`), `b_0, ...,  b_{D-1}, a_1, ..., a_C` are parameters to be estimated and `e` is the error. The package then makes predictions in alterations of the time-use variables (the linearly dependennt set of compositional components) based on this model. 
 
-Please see [Dumuid et al. (2017a)](https://doi.org/10.1177/0962280217710835) for more details on compositional data analysis.
+
+Information on outcome prediction with time-use exchange between one component and the remaining compositional components proportionally (`comparisons = "prop-realloc"` option of the `predict_delta_comps()` function), please see [Dumuid et al. (2017a)](https://doi.org/10.1177/0962280217710835).
 
 For information on outcome prediction with time-use exchange between two compositional components (i.e., the `comparisons = "one-vs-one"` option of the `predict_delta_comps()` function), please see
 [Dumuid et al. (2017b)](https://doi.org/10.1177%2F0962280217737805).
 
-
 Information on outcome prediction with time-use exchange between all compositional components (the `comparisons = "prop-realloc"` and `comparisons = "one-vs-all"` options of the `predict_delta_comps()` function), please see ...
+
+For a starting point to learn about compositional data analysis please see [Aitchison (1982)](https://doi.org/10.1111/j.2517-6161.1982.tb01195.x). However the aforementioned [Dumuid et al. (2017a)](https://doi.org/10.1177/0962280217710835) and [Dumuid et al. (2017b)](https://doi.org/10.1177%2F0962280217737805) may be more approachable introductions.
+
 
 ## Datasets in package
 
@@ -101,4 +104,4 @@ predict_delta_comps(
 
 Output is a `data.frame` that can be turned into the plot below:
 
-![](https://github.com/tystan/deltacomp/blob/master/delta_comps.png)
+![](https://github.com/tystan/deltacomp/blob/master/inst/img/delta_comps.png)

@@ -7,20 +7,20 @@
 #' @param comps Character vector of names of compositions in \code{dataf}
 #' @param covars Optional. Character vector of covariates names  (non-comp variables) in \code{dataf}. Defaults to NULL.
 #' @param deltas Optional. Changes in compositions to be computed pairwise. Defaults to 0, 10 and 20 minutes as a proportion of minutes in a day.
-#' @param comparisons Currently three choices: "one-v-one", "one-v-all" or "prop-realloc" (default). Currently proportional re-allocaiton isn't properly implemented.
+#' @param comparisons Currently three choices: "one-v-one", "one-v-all" or "prop-realloc" (default). Currently "one-v-all"  isn't properly implemented.
 #' @param alpha Optional. Level of significance. Defaults to 0.05.
 #' @param verbose Optional. Whether the function provides extra information upon return. Defaults to FALSE.
 #' @export
 #' @examples
 #' predict_delta_comps(
 #'   dataf=fat_data,
-#'   y="fat",
-#'   comps=c("sl","sb","lpa","mvpa"),
-#'   covars=c("sibs","parents","ed"),
-#'   deltas=seq(-60,60,by=5)/(24*60),
-#'   comparisons="one-v-one",
-#'   alpha=0.05,
-#'   verbose=FALSE
+#'   y = "fat",
+#'   comps = c("sl", "sb", "lpa", "mvpa"),
+#'   covars = c("sibs", "parents", "ed"),
+#'   deltas = seq(-60, 60, by = 5) / (24 * 60),
+#'   comparisons = "one-v-one",
+#'   alpha = 0.05,
+#'   verbose = FALSE
 #' )
 #'
 
@@ -43,10 +43,16 @@ predict_delta_comps <- function(
   n_delta <- length(deltas)
   n_covar <- ifelse(is.null(covars), 0, length(covars))
   
-  m_cov <- NULL
-  if (n_covar > 0) {
-    m_cov <- get_avg_covs(dataf, covars)
-  }
+  #### As covariates are fit linearly and are constant within prediction, they cancel out
+  # (i.e., we don't compare age=10 vs age=15, keeping everything else constant
+  # as we read that off the coefficients table)
+  # m_cov <- NULL
+  # if (n_covar > 0) {
+  #   m_cov <- get_avg_covs(dataf, covars)
+  # }
+  
+  # standardise comps
+  dataf <- standardise_comps(dataf, comps)
   
   # get the mean of the compositions on the geometric scale
   mean_comps <- 
@@ -59,9 +65,6 @@ predict_delta_comps <- function(
   
   if(!all.equal(1, sum(mean_comps), tolerance = 1e-5))
     stop("Calculated mean composition does not sum to 1")
-  
-  # standardise comps
-  dataf <- standardise_comps(dataf, comps)
   
   
   # create sequential binary partition
@@ -120,7 +123,7 @@ predict_delta_comps <- function(
   
   preds <- 
     cbind(
-      as.data.frame(realloc_nms),
+      as.data.frame(realloc_nms, stringsAsFactors = FALSE),
       delta_list,
       alpha,
       get_pred_bounds(y0_star, lm_quants$crit_val, se_y0_star, bound =  0),

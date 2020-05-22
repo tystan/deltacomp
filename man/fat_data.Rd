@@ -4,7 +4,9 @@
 \name{fat_data}
 \alias{fat_data}
 \title{Randomly generated data to simulate child fat percentage regressed on time-use composiitonal data}
-\format{A data frame with 100 rows and 8 variables}
+\format{
+A data frame with 100 rows and 8 variables
+}
 \usage{
 data(fat_data)
 }

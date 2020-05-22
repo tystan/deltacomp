@@ -4,7 +4,9 @@
 \name{fairclough}
 \alias{fairclough}
 \title{Data from Fairclough (2017). Fitness, fatness and the reallocation of time between children’s daily movement behaviours: an analysis of compositional data}
-\format{A data frame with 169 rows and 21 variables}
+\format{
+A data frame with 169 rows and 21 variables
+}
 \usage{
 data(fairclough)
 }
