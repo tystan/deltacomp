@@ -11,5 +11,6 @@ Encoding: UTF-8
 LazyData: true
 Imports: compositions,
     robCompositions,
-    testthat
+    testthat,
+    ggplot2
 RoxygenNote: 7.1.0

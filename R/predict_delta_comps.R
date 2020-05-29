@@ -6,10 +6,9 @@
 #' @param y Name (as string) of outcome in \code{dataf}
 #' @param comps Character vector of names of compositions in \code{dataf}
 #' @param covars Optional. Character vector of covariates names  (non-comp variables) in \code{dataf}. Defaults to NULL.
-#' @param deltas Optional. Changes in compositions to be computed pairwise. Defaults to 0, 10 and 20 minutes as a proportion of minutes in a day.
+#' @param deltas A vector of time-component changes (as proportions of compositions , i.e., values between -1 and 1). Optional. Changes in compositions to be computed pairwise. Defaults to 0, 10 and 20 minutes as a proportion of the 1440 minutes in a day.
 #' @param comparisons Currently three choices: "one-v-one", "one-v-all" or "prop-realloc" (default). Currently "one-v-all"  isn't properly implemented.
 #' @param alpha Optional. Level of significance. Defaults to 0.05.
-#' @param verbose Optional. Whether the function provides extra information upon return. Defaults to FALSE.
 #' @export
 #' @examples
 #' predict_delta_comps(
@@ -19,8 +18,7 @@
 #'   covars = c("sibs", "parents", "ed"),
 #'   deltas = seq(-60, 60, by = 5) / (24 * 60),
 #'   comparisons = "one-v-one",
-#'   alpha = 0.05,
-#'   verbose = FALSE
+#'   alpha = 0.05
 #' )
 #'
 
@@ -31,8 +29,7 @@ predict_delta_comps <- function(
   covars = NULL, # character vector of names of covariates (non-comp variables) in dataf
   deltas = c(0, 10, 20) / (24 * 60), # changes in compositions to be computed pairwise
   comparisons = c("prop-realloc", "one-v-one", "one-v-all")[1],
-  alpha = 0.05,
-  verbose = FALSE
+  alpha = 0.05
 ){
 
   # set up function constants
@@ -43,13 +40,24 @@ predict_delta_comps <- function(
   n_delta <- length(deltas)
   n_covar <- ifelse(is.null(covars), 0, length(covars))
   
+  if (any(abs(deltas) > 1)) {
+    stop("deltas must be specified as positive and negative proportions of a composition. i.e., values in (-1, 1).")
+  }
+  
+  dataf <- rm_na_data_rows(dataf, c(y, comps, covars))
+  
   #### As covariates are fit linearly and are constant within prediction, they cancel out
   # (i.e., we don't compare age=10 vs age=15, keeping everything else constant
   # as we read that off the coefficients table)
-  # m_cov <- NULL
-  # if (n_covar > 0) {
-  #   m_cov <- get_avg_covs(dataf, covars)
-  # }
+  ### However, we may be interested in the prediction for the mean value of composisiotns 
+  ### and covariates
+  m_cov <- NULL
+  if (n_covar > 0) {
+    m_cov <- get_avg_covs(dataf, covars)
+  }
+  
+  # testing:
+  # print(tibble::as_tibble(m_cov))
   
   # standardise comps
   dataf <- standardise_comps(dataf, comps)
@@ -137,23 +145,18 @@ predict_delta_comps <- function(
   
   preds$sig <- ifelse(preds$ci_lo <= 0 & preds$ci_up >= 0, "", "*")
   
-  
-  ret_obj <- NULL
-  if (verbose) {
-    ret_obj <- 
-      list(
-        predictions = preds,
-        sbp = sbp,
-        psi = psi,
-        data = X,
-        linmod = lm_X,
-        n = c(n = n, n_comp = n_comp, n_covar = n_covar, n_delta = n_delta)
-      )
-    class(ret_obj) <- c("verbose_deltacomp_obj", "deltacomp_obj")
-  } else {
-    ret_obj <- preds
-    class(ret_obj) <- c(class(preds), "deltacomp_obj")
-  }
+  # data.frame to return
+  ret_obj <- preds
+  class(ret_obj) <- c(class(preds), "deltacomp_obj")
+  # add info from function call
+  attr(ret_obj, "dataf") <- dataf
+  attr(ret_obj, "y") <- y
+  attr(ret_obj, "comps") <- comps
+  attr(ret_obj, "covars") <- covars
+  attr(ret_obj, "deltas") <- deltas
+  attr(ret_obj, "comparisons") <- comparisons
+  attr(ret_obj, "alpha") <- alpha
+  attr(ret_obj, "irl_basis") <- psi
   
   return(ret_obj)
 

@@ -11,8 +11,7 @@ predict_delta_comps(
   covars = NULL,
   deltas = c(0, 10, 20)/(24 * 60),
   comparisons = c("prop-realloc", "one-v-one", "one-v-all")[1],
-  alpha = 0.05,
-  verbose = FALSE
+  alpha = 0.05
 )
 }
 \arguments{
@@ -24,13 +23,11 @@ predict_delta_comps(
 
 \item{covars}{Optional. Character vector of covariates names  (non-comp variables) in \code{dataf}. Defaults to NULL.}
 
-\item{deltas}{Optional. Changes in compositions to be computed pairwise. Defaults to 0, 10 and 20 minutes as a proportion of minutes in a day.}
+\item{deltas}{A vector of time-component changes (as proportions of compositions , i.e., values between -1 and 1). Optional. Changes in compositions to be computed pairwise. Defaults to 0, 10 and 20 minutes as a proportion of the 1440 minutes in a day.}
 
 \item{comparisons}{Currently three choices: "one-v-one", "one-v-all" or "prop-realloc" (default). Currently "one-v-all"  isn't properly implemented.}
 
 \item{alpha}{Optional. Level of significance. Defaults to 0.05.}
-
-\item{verbose}{Optional. Whether the function provides extra information upon return. Defaults to FALSE.}
 }
 \description{
 Provided the data (containing outcome, composiitional compoents and covariates), fit a ilr multiple linear regression model and provide predictions from reallocating compositional values pairwise amunsnst the components model.
@@ -43,8 +40,7 @@ predict_delta_comps(
   covars = c("sibs", "parents", "ed"),
   deltas = seq(-60, 60, by = 5) / (24 * 60),
   comparisons = "one-v-one",
-  alpha = 0.05,
-  verbose = FALSE
+  alpha = 0.05
 )
 
 }

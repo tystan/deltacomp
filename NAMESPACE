@@ -1,4 +1,5 @@
 exportPattern("^[[:alpha:]]+")
 importFrom("stats", "as.formula", "coefficients", "df.residual", "lm", "median", "model.matrix", "qt", "quantile", "residuals")
 importFrom("utils", "head")
-importFrom("compositions", "gsi.buildilrBase","ilr")
+importFrom("compositions", "gsi.buildilrBase", "ilr")
+import("ggplot2")

@@ -38,8 +38,7 @@ deltacomp_df <-
     covars = c("decimal_age","sex"),
     deltas = 15 / (24 * 60), # just 15 min intervals
     comparisons = "one-v-one",
-    alpha = 0.05,
-    verbose = FALSE
+    alpha = 0.05
   )
 
 # remove cols not tested
