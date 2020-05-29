@@ -4,6 +4,7 @@
 The current version (v0.2.0, updated 2020-05-29) is currently in beta testing with the following list of to-dos:
 
 * incorporate mean compositions into `predict_delta_comps()` and `plot_delta_comp()` output
+* `predict_delta_comps()` to check for compositional components of 0 [or non-sensical negative values] (geometric mean incompatable)
 * complete general testing
 * unit tests and commenting
     
@@ -16,7 +17,6 @@ Changes since last version (v0.1.0):
 * the mean composition now correctly uses the geometric mean (on the simplex) and not the naive arithmetic mean of the compositions
 * added plotting function `plot_delta_comp()` (see 'Output and plotting results' below)
 * `predict_delta_comps()` now removes rows with `NA` values in input datasets (and warns the user)
-* `predict_delta_comps()` now checks for compositional components of 0 [or non-sensical negative values] (geometric mean incompatable)
 
 
 
