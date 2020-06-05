@@ -10,7 +10,7 @@ predict_delta_comps(
   comps,
   covars = NULL,
   deltas = c(0, 10, 20)/(24 * 60),
-  comparisons = c("prop-realloc", "one-v-one", "one-v-all")[1],
+  comparisons = c("prop-realloc", "one-v-one")[1],
   alpha = 0.05
 )
 }
@@ -25,7 +25,7 @@ predict_delta_comps(
 
 \item{deltas}{A vector of time-component changes (as proportions of compositions , i.e., values between -1 and 1). Optional. Changes in compositions to be computed pairwise. Defaults to 0, 10 and 20 minutes as a proportion of the 1440 minutes in a day.}
 
-\item{comparisons}{Currently three choices: "one-v-one", "one-v-all" or "prop-realloc" (default). Currently "one-v-all"  isn't properly implemented.}
+\item{comparisons}{Currently three choices: "one-v-one" or "prop-realloc" (default). Currently "one-v-all"  isn't properly implemented.}
 
 \item{alpha}{Optional. Level of significance. Defaults to 0.05.}
 }

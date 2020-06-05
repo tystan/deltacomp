@@ -7,7 +7,7 @@
 #' @param comps Character vector of names of compositions in \code{dataf}
 #' @param covars Optional. Character vector of covariates names  (non-comp variables) in \code{dataf}. Defaults to NULL.
 #' @param deltas A vector of time-component changes (as proportions of compositions , i.e., values between -1 and 1). Optional. Changes in compositions to be computed pairwise. Defaults to 0, 10 and 20 minutes as a proportion of the 1440 minutes in a day.
-#' @param comparisons Currently three choices: "one-v-one", "one-v-all" or "prop-realloc" (default). Currently "one-v-all"  isn't properly implemented.
+#' @param comparisons Currently three choices: "one-v-one" or "prop-realloc" (default). Currently "one-v-all"  isn't properly implemented.
 #' @param alpha Optional. Level of significance. Defaults to 0.05.
 #' @export
 #' @examples
@@ -28,7 +28,7 @@ predict_delta_comps <- function(
   comps, # character vector of names of compositions in dataf
   covars = NULL, # character vector of names of covariates (non-comp variables) in dataf
   deltas = c(0, 10, 20) / (24 * 60), # changes in compositions to be computed pairwise
-  comparisons = c("prop-realloc", "one-v-one", "one-v-all")[1],
+  comparisons = c("prop-realloc", "one-v-one")[1],
   alpha = 0.05
 ){
 
@@ -46,19 +46,6 @@ predict_delta_comps <- function(
   
   dataf <- rm_na_data_rows(dataf, c(y, comps, covars))
   
-  #### As covariates are fit linearly and are constant within prediction, they cancel out
-  # (i.e., we don't compare age=10 vs age=15, keeping everything else constant
-  # as we read that off the coefficients table)
-  ### However, we may be interested in the prediction for the mean value of composisiotns 
-  ### and covariates
-  m_cov <- NULL
-  if (n_covar > 0) {
-    m_cov <- get_avg_covs(dataf, covars)
-  }
-  
-  # testing:
-  # print(tibble::as_tibble(m_cov))
-  
   # standardise comps
   dataf <- standardise_comps(dataf, comps)
   
@@ -74,6 +61,20 @@ predict_delta_comps <- function(
   if(!all.equal(1, sum(mean_comps), tolerance = 1e-5))
     stop("Calculated mean composition does not sum to 1")
   
+  #### As covariates are fit linearly and are constant within prediction, they cancel out
+  # (i.e., we don't compare age=10 vs age=15, keeping everything else constant
+  # as we read that off the coefficients table)
+  ### However, we may be interested in the prediction for the mean value of compositions 
+  ### and covariates
+  m_cov <- NULL
+  mean_X <- as.data.frame(t(mean_comps))
+  if (n_covar > 0) {
+    m_cov <- get_avg_covs(dataf, covars)
+    # testing:
+    # print(tibble::as_tibble(m_cov))
+    mean_X <- cbind(mean_X, m_cov)
+    # print(tibble::as_tibble(mean_X))
+  }
   
   # create sequential binary partition
   sbp <- create_seq_bin_part(n_comp)
@@ -81,12 +82,16 @@ predict_delta_comps <- function(
   psi <- compositions::gsi.buildilrBase(sbp)
   # add ilr coords to dataset
   dataf <- append_ilr_coords(dataf, comps, psi)
+  mean_X <- append_ilr_coords(mean_X, comps, psi)
+  # print(tibble::as_tibble(mean_X))
   
   # create dataset X only consisting of outcome, ilr coords and covars
   ilr_names <- paste0("ilr", 1:(n_comp - 1))
   X <- dataf[, colnames(dataf) %in% c(y, ilr_names, covars)] 
   # fit model
   lm_X <- fit_lm(y, X)
+  
+  mean_pred <- get_mean_pred(lm_X, mean_X, alpha = alpha)
   # extract linear model quantities required for further calculations
   lm_quants <- extract_lm_quantities(lm_X, alpha = alpha)
   
@@ -157,6 +162,7 @@ predict_delta_comps <- function(
   attr(ret_obj, "comparisons") <- comparisons
   attr(ret_obj, "alpha") <- alpha
   attr(ret_obj, "irl_basis") <- psi
+  attr(ret_obj, "mean_pred") <- mean_pred
   
   return(ret_obj)
 

@@ -1,9 +1,9 @@
 
 # Change notes
 
-The current version (v0.2.0, updated 2020-05-29) is currently in beta testing with the following list of to-dos:
+The current version (v0.2.0, updated 2020-06-05) is currently in beta testing with the following list of to-dos:
 
-* incorporate mean compositions into `predict_delta_comps()` and `plot_delta_comp()` output
+
 * `predict_delta_comps()` to check for compositional components of 0 [or non-sensical negative values] (geometric mean incompatable)
 * complete general testing
 * unit tests and commenting
@@ -12,19 +12,19 @@ Changes since last version (v0.1.0):
 
 * the main function `get_plus_minus_changes()` has been more sensibly renamed to `predict_delta_comps()`
 * refactor and modularisation of `predict_delta_comps()`
-* the three types of reallocation (`prop-realloc`, `one-v-one` or `one-v-all`) are now working (based on testing so far, unit tests pending)
+* the two types of reallocation (`prop-realloc` and `one-v-one`) are now working (based on testing so far, unit tests pending)
 * includes more checks to throw errors for obvious malfunctions
 * the mean composition now correctly uses the geometric mean (on the simplex) and not the naive arithmetic mean of the compositions
-* added plotting function `plot_delta_comp()` (see 'Output and plotting results' below)
+* added plotting function `plot_delta_comp()` (see '5. Output and plotting results' below)
 * `predict_delta_comps()` now removes rows with `NA` values in input datasets (and warns the user)
-
+* the mean composition and the resulting predicted outcome with confidence interval is now produced by `predict_delta_comps()` (see '5.1 Prediction for the mean composition' below)
 
 
 # The `deltacomp` package
 
 Functions to analyse compositional data and produce predictions (with confidence intervals) for relative increases and decreases in the compositional components
 
-## Background
+## 1. Background
 
 For an outcome variable `Y`, *D* compositional variables (`x_1, ..., x_D`) and *C* covariates (`z_1, ..., z_C`); this package fits the compositional data analysis model (notation inexact):
 
@@ -37,27 +37,60 @@ where `ilr_i` are the *D-1* isometric log ratio variables derived from the *D* c
 For a starting point to learn about compositional data analysis please see [Aitchison (1982)](https://doi.org/10.1111/j.2517-6161.1982.tb01195.x). However the articles [Dumuid et al. (2017a)](https://doi.org/10.1177/0962280217710835) and [Dumuid et al. (2017b)](https://doi.org/10.1177%2F0962280217737805) may be more approachable introductions.
 
 
-## Reallocation of time-use component options
+## 2. Reallocation of time-use component options
 
 
-### Option `comparisons = "prop-realloc"` 
+### 2.1. Option `comparisons = "prop-realloc"` 
 
 Information on outcome prediction with time-use exchange between one component and the remaining compositional components proportionally (`comparisons = "prop-realloc"` option of the `predict_delta_comps()` function), please see [Dumuid et al. (2017a)](https://doi.org/10.1177/0962280217710835).
 
+### 2.1.1. Example
 
-### Option `comparisons = "one-v-one"` 
+Suppose you have three (predictor) components in a day summing to 1 (e.g., a day) to predict an outcome variable. The three components are `sedentary`, `sleep`  and `activity`. Let's assume the mean sampled composition is:
+
+* `sedentary = 0.5` (i.e., half a day)
+* `sleep = 0.3`  (i.e., 30% a day)
+* `activity = 0.2` (i.e., 20% a day)
+
+If you wanted to predict the change in the outcome variable from the above mean composition with `delta = +0.05` (5% of the day) is added to `sedentary`, the option `comparisons = "prop-realloc"` reduces the remaining components by the 5% proportionately based on their mean values, illustrated below:
+
+* `sedentary* = 0.5 + delta = 0.5 + 0.05 = 0.55`
+* `sleep* = 0.3 - delta * sleep / (sleep + activity) = 0.3 - 0.05 * 0.3 / (0.3 + 0.2) = 0.3 - 0.03 = 0.27`
+* `activity* = 0.2 - delta * activity / (sleep + activity) = 0.2 - 0.05 * 0.2 / (0.3 + 0.2) = 0.2 - 0.02 = 0.18`
+
+Noting that the new compsition: `sedentary* + sleep* + activity* = 0.55 + 0.27 + 0.18 = 1`.
+
+Note for the example above, the option `comparisons = "prop-realloc"` in `predict_delta_comps()` will actually automatically produce seperate predictions for a `delta = +0.05` on each of the components against the remaining components. i.e., not only the `sedentary* = 0.5 + delta` scenario as illustrated above but also `sleep* = 0.3 + delta` and `activity* = 0.2 + delta` cases.
+
+### 2.2. Option `comparisons = "one-v-one"` 
 
 For information on outcome prediction with time-use exchange between two compositional components (i.e., the `comparisons = "one-v-one"` option of the `predict_delta_comps()` function), please see
 [Dumuid et al. (2017b)](https://doi.org/10.1177%2F0962280217737805).
 
+### 2.2.1. Example
+
+Similarily to the previous example, suppose you have three (predictor) components in a day summing to 1 (i.e. a day) to predict an outcome variable. The three components are `sedentary`, `sleep`  and `activity`. Let's assume the mean sampled composition is:
+
+* `sedentary = 0.5` (i.e., half a day)
+* `sleep = 0.3`  (i.e., 30% a day)
+* `activity = 0.2` (i.e., 20% a day)
+
+If you wanted to predict the change in the outcome variable from the above mean composition with `delta = +0.05` (5% of the day), the option `comparisons = "one-v-one"` looks at all pairwise exchanges between the components `(sedentary*, sleep*, activity*)`:
+
+* `(0.5 + 0.05, 0.3 - 0.05, 0.2       )`
+* `(0.5 + 0.05, 0.3       , 0.2 - 0.05)`
+* `(0.5       , 0.3 + 0.05, 0.2 - 0.05)`
+* `(0.5 - 0.05, 0.3 + 0.05, 0.2       )`
+* `(0.5 - 0.05, 0.3       , 0.2 + 0.05)`
+* `(0.5       , 0.3 - 0.05, 0.2 + 0.05)`
 
 
-### Option `comparisons = "one-v-all"` 
+### 2.3. Option `comparisons = "one-v-all"` 
 
-Not reliably implemented as of yet. Use with caution.
+Depreciated.
 
 
-## Datasets in package
+## 3. Datasets in package
 
 Two datasets are supplied with the package:
 
@@ -66,7 +99,7 @@ Two datasets are supplied with the package:
 
 The `fairclough` dataset was kindly provided by the authors of [Fairclough et al. (2017)](https://doi.org/10.1186/s12966-017-0521-z). `fat_data` is a randomly generated test dataset that might roughly mimic a real dataset.
 
-## Example usage
+## 4. Example usage
 
 ```R
 library(devtools) # see https://www.r-project.org/nosvn/pandoc/devtools.html
@@ -100,7 +133,7 @@ predict_delta_comps(
 ```
 
 
-## Output and plotting results
+## 5. Output and plotting results
 
 Output is a `data.frame` that can be turned into the plot below using the following code.
 
@@ -130,7 +163,23 @@ plot_delta_comp(
 ```
 
 
-
 ![](https://github.com/tystan/deltacomp/blob/master/inst/img/delta_comps2.png)
+
+
+### 5.1. Prediction for the mean composition
+
+The function `predict_delta_comps()` now outputs the predicted outcome value (with `100 * (1 - alpha)`% confidence interval). This data is printed to the console but also can be extracted from the output of `predict_delta_comps()` as per the below code:
+
+```R
+
+# produce a 1 line data.frame that contains 
+#    the (simplex/geometric) mean composition,
+#    the "average" covariates (the median of the factor variables in order of the levels are taken as default),
+#    the ilr coords of the (simplex/geometric) mean composition, and
+#    the predicted outcome value with 100*(1-alpha)% confidence interval
+attr(pred_df, "mean_pred")
+
+
+```
 
 
