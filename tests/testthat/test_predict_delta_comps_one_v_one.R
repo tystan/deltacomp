@@ -34,8 +34,8 @@ deltacomp_df <-
   predict_delta_comps(
     dataf = fairclough,
     y = "z_bmi",
-    comps = c("sleep","sed","lpa","mvpa"),
-    covars = c("decimal_age","sex"),
+    comps = c("sleep", "sed", "lpa", "mvpa"),
+    covars = c("decimal_age", "sex"),
     deltas = 15 / (24 * 60), # just 15 min intervals
     comparisons = "one-v-one",
     alpha = 0.05

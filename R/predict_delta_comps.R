@@ -3,19 +3,39 @@
 #' @author Ty Stanford <tystan@gmail.com>
 #' @description Provided the data (containing outcome, composiitional compoents and covariates), fit a ilr multiple linear regression model and provide predictions from reallocating compositional values pairwise amunsnst the components model.
 #' @param dataf A \code{data.frame} containing data
-#' @param y Name (as string) of outcome in \code{dataf}
-#' @param comps Character vector of names of compositions in \code{dataf}
+#' @param y Name (as string/character vector of length 1) of outcome variable in \code{dataf}
+#' @param comps Character vector of names of compositions in \code{dataf}. See details for more information.
 #' @param covars Optional. Character vector of covariates names  (non-comp variables) in \code{dataf}. Defaults to NULL.
-#' @param deltas A vector of time-component changes (as proportions of compositions , i.e., values between -1 and 1). Optional. Changes in compositions to be computed pairwise. Defaults to 0, 10 and 20 minutes as a proportion of the 1440 minutes in a day.
-#' @param comparisons Currently three choices: "one-v-one" or "prop-realloc" (default). Currently "one-v-all"  isn't properly implemented.
+#' @param deltas A vector of time-component changes (as proportions of compositions , i.e., values between -1 and 1). Optional. 
+#' Changes in compositions to be computed pairwise. Defaults to 0, 10 and 20 minutes as a proportion of the 1440 minutes 
+#' in a day (i.e., approximately \code{0.000}, \code{0.007} and \code{0.014}).
+#' @param comparisons Currently three choices:  \code{"one-v-one"} or  \code{"prop-realloc"} (default). Please see details for explanation of these methods.
 #' @param alpha Optional. Level of significance. Defaults to 0.05.
 #' @export
+#' @details 
+#' Values in the \code{comps} columns must be strictly greater than zero. These compositional values are NOT assumed to be contrained to (0, 1) 
+#' values as the function normalises the compositions row-wise to sum to 1 in part of it's processing of the dataset before analysis.
+#' 
+#' Please see the \code{deltacomp} package \code{README.md} file for examples and explaanation of the \code{comparisons = "prop-realloc"} and \code{comparisons = "one-v-one"} options. 
+#' 
+#' Note from version 0.1.0 to current version, \code{comparisons == "one-v-all"} is depreciated, \code{comparisons == "prop-realloc"} is probably the alternative you are after.
 #' @examples
 #' predict_delta_comps(
-#'   dataf=fat_data,
+#'   dataf = fat_data,
 #'   y = "fat",
 #'   comps = c("sl", "sb", "lpa", "mvpa"),
 #'   covars = c("sibs", "parents", "ed"),
+#'   deltas = seq(-60, 60, by = 5) / (24 * 60),
+#'   comparisons = "one-v-one",
+#'   alpha = 0.05
+#' )
+#'
+
+#' predict_delta_comps(
+#'   dataf = fat_data,
+#'   y = "fat",
+#'   comps = c("sl", "sb", "lpa", "mvpa"),
+#'   covars = NULL,
 #'   deltas = seq(-60, 60, by = 5) / (24 * 60),
 #'   comparisons = "one-v-one",
 #'   alpha = 0.05
@@ -32,19 +52,20 @@ predict_delta_comps <- function(
   alpha = 0.05
 ){
 
-  # set up function constants
+  # perform some basic input checks - throws errors where input incorrect
+  check_input_args(dataf, y, comps, covars, deltas)
+  if (is_null_or_na(covars)) { # convert 0 length vecs and NAs to NULL
+    covars <- NULL
+  }
+  dataf <- rm_na_data_rows(dataf, c(y, comps, covars))
+  check_strictly_positive_vals(dataf, comps)
   comparisons <- get_comp_type(comparisons) 
-  
+    
+  # set up function constants
   n <- nrow(dataf)
   n_comp <- length(comps)
   n_delta <- length(deltas)
-  n_covar <- ifelse(is.null(covars), 0, length(covars))
-  
-  if (any(abs(deltas) > 1)) {
-    stop("deltas must be specified as positive and negative proportions of a composition. i.e., values in (-1, 1).")
-  }
-  
-  dataf <- rm_na_data_rows(dataf, c(y, comps, covars))
+  n_covar <- ifelse(is_null_or_na(covars), 0, length(covars))
   
   # standardise comps
   dataf <- standardise_comps(dataf, comps)
@@ -65,7 +86,7 @@ predict_delta_comps <- function(
   # (i.e., we don't compare age=10 vs age=15, keeping everything else constant
   # as we read that off the coefficients table)
   ### However, we may be interested in the prediction for the mean value of compositions 
-  ### and covariates
+  ### and covariates 
   m_cov <- NULL
   mean_X <- as.data.frame(t(mean_comps))
   if (n_covar > 0) {
@@ -113,9 +134,9 @@ predict_delta_comps <- function(
     )
   }
   
-  if(!all.equal(rep(1, n_preds), rowSums(m_delta), tolerance = 1e-5))
+  if(!all.equal(rep(1, n_preds), rowSums(m_delta), tolerance = 1e-5)) {
     stop("Calculated mean composition does not sum to 1")
-  
+  }
   
   ilr_means <- compositions::ilr(m_comps, V = psi)
   ilr_delta <- compositions::ilr(m_delta, V = psi)
@@ -146,7 +167,6 @@ predict_delta_comps <- function(
   
   colnames(preds) <-
     c("comp+", "comp-", "delta", "alpha", "delta_pred", "ci_lo", "ci_up")
-  
   
   preds$sig <- ifelse(preds$ci_lo <= 0 & preds$ci_up >= 0, "", "*")
   

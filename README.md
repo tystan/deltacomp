@@ -1,12 +1,9 @@
 
 # Change notes
 
-The current version (v0.2.0, updated 2020-06-05) is currently in beta testing with the following list of to-dos:
+The current version (v0.2.0, updated 2020-06-12) is currently in beta testing with the following list of to-dos:
 
-
-* `predict_delta_comps()` to check for compositional components of 0 [or non-sensical negative values] (geometric mean incompatable)
-* complete general testing
-* unit tests and commenting
+* final unit tests and commenting
     
 Changes since last version (v0.1.0):
 
@@ -18,6 +15,8 @@ Changes since last version (v0.1.0):
 * added plotting function `plot_delta_comp()` (see '5. Output and plotting results' below)
 * `predict_delta_comps()` now removes rows with `NA` values in input datasets (and warns the user)
 * the mean composition and the resulting predicted outcome with confidence interval is now produced by `predict_delta_comps()` (see '5.1 Prediction for the mean composition' below)
+* `predict_delta_comps()` now checks for compositional components of 0 [or non-sensical negative values] (geometric mean incompatable)
+* completed general testing
 
 
 # The `deltacomp` package
@@ -39,6 +38,7 @@ For a starting point to learn about compositional data analysis please see [Aitc
 
 ## 2. Reallocation of time-use component options
 
+Please note that the use of 'mean composition' means the geometric mean on the compositional simplex and *not* the arithmetic mean. If these words have little meaning to you, that is no problems as these differently calculated means likely do not differ much in your dataset. `deltacomp` only uses the simplex geometric mean from version 0.2.0 onwards.
 
 ### 2.1. Option `comparisons = "prop-realloc"` 
 
