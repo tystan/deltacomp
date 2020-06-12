@@ -38,7 +38,7 @@ For a starting point to learn about compositional data analysis please see [Aitc
 
 ## 2. Reallocation of time-use component options
 
-Please note that the use of 'mean composition' means the geometric mean on the compositional simplex and *not* the arithmetic mean. If these words have little meaning to you, that is no problems as these differently calculated means likely do not differ much in your dataset. `deltacomp` only uses the simplex geometric mean from version 0.2.0 onwards.
+Please note that the use of 'mean composition' means the geometric mean on the compositional simplex and *not* the arithmetic mean. If these words have little meaning to you, that is no problems as these differently calculated means likely do not differ much in your dataset. `deltacomp` only uses the simplex geometric mean in its calculations from version 0.2.0 onwards.
 
 ### 2.1. Option `comparisons = "prop-realloc"` 
 
