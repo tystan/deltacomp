@@ -58,6 +58,8 @@ predict_delta_comps <- function(
     covars <- NULL
   }
   dataf <- rm_na_data_rows(dataf, c(y, comps, covars))
+  # in case the data are much smaller after removing NAs
+  check_input_args(dataf, y, comps, covars, deltas)
   check_strictly_positive_vals(dataf, comps)
   comparisons <- get_comp_type(comparisons) 
     

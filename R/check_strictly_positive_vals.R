@@ -10,7 +10,8 @@ check_strictly_positive_vals <- function(dataf, comps, tol = 1e-6) {
     )
   }
   
-  
+  return(invisible(TRUE))
+
 }
 
 

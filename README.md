@@ -1,22 +1,24 @@
 
 # Change notes
 
-The current version (v0.2.0, updated 2020-06-12) is currently in beta testing with the following list of to-dos:
+The current version (v0.2.0, updated 2020-06-20) is currently in beta testing with the following list of to-dos:
 
-* final unit tests and commenting
+* function (that calls `predict_delta_comps()`) that does the minutes in the day specifically by default (also deltas in minutes rather than proportions in output)
+* parameters in the model output should state what the ILRs are (what activities are the numerator/denominator of the ratios)
+* additional commenting
     
 Changes since last version (v0.1.0):
 
 * the main function `get_plus_minus_changes()` has been more sensibly renamed to `predict_delta_comps()`
 * refactor and modularisation of `predict_delta_comps()`
-* the two types of reallocation (`prop-realloc` and `one-v-one`) are now working (based on testing so far, unit tests pending)
+* the two types of reallocation (`prop-realloc` and `one-v-one`) are working correctly, unit tested
 * includes more checks to throw errors for obvious malfunctions
 * the mean composition now correctly uses the geometric mean (on the simplex) and not the naive arithmetic mean of the compositions
 * added plotting function `plot_delta_comp()` (see '5. Output and plotting results' below)
 * `predict_delta_comps()` now removes rows with `NA` values in input datasets (and warns the user)
 * the mean composition and the resulting predicted outcome with confidence interval is now produced by `predict_delta_comps()` (see '5.1 Prediction for the mean composition' below)
 * `predict_delta_comps()` now checks for compositional components of 0 [or non-sensical negative values] (geometric mean incompatable)
-* completed general testing
+* completed general testing and unit tests
 
 
 # The `deltacomp` package
@@ -172,7 +174,7 @@ The function `predict_delta_comps()` now outputs the predicted outcome value (wi
 
 ```R
 
-# produce a 1 line data.frame that contains 
+# produces a 1 line data.frame that contains 
 #    the (simplex/geometric) mean composition,
 #    the "average" covariates (the median of the factor variables in order of the levels are taken as default),
 #    the ilr coords of the (simplex/geometric) mean composition, and
