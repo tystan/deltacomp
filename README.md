@@ -1,7 +1,7 @@
 
 # Change notes
 
-The current version (v0.2.0, updated 2020-06-20) is currently in beta testing with the following list of to-dos:
+The current version (v0.2.0, updated 2020-06-20) has following list of to-dos:
 
 * function (that calls `predict_delta_comps()`) that does the minutes in the day specifically by default (also deltas in minutes rather than proportions in output)
 * parameters in the model output should state what the ILRs are (what activities are the numerator/denominator of the ratios)
