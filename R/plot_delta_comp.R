@@ -72,6 +72,8 @@ plot_delta_comp <- function(dc_obj, comp_total = NULL, units_lab = NULL) {
   lab_ci <- paste0("Predicted\nchange in\noutcome w/ \n", ci_lev, "% CI for\ndelta(comp)")
   delts <- attr(dc_obj, "deltas")
   outc <- attr(dc_obj, "y")
+  comps <- attr(dc_obj, "comps")
+  comparisons <- attr(dc_obj, "comparisons")
   
   if (length(delts) < 2) {
     warning(
@@ -80,8 +82,13 @@ plot_delta_comp <- function(dc_obj, comp_total = NULL, units_lab = NULL) {
     )
   }
   
-  dc_obj$`comp+` <- paste(dc_obj$`comp+`, "+Delta")
-  dc_obj$`comp-` <- paste(dc_obj$`comp-`, "-Delta")
+  # make sure olevels are ordered by the order they are specified in the function call
+  dc_obj$`comp+` <- factor(dc_obj$`comp+`, levels = comps)
+  levels(dc_obj$`comp+`) <- paste0(comps, "+Delta")
+  if (comparisons == "one-v-one") {
+    dc_obj$`comp-` <- factor(dc_obj$`comp-`, levels = comps)
+    levels(dc_obj$`comp-`) <- paste0(comps, "-Delta")
+  }
   
   ggp <-
     ggplot(dc_obj) +
@@ -97,7 +104,7 @@ plot_delta_comp <- function(dc_obj, comp_total = NULL, units_lab = NULL) {
     ) +
     theme(legend.position = "none")
   
-  comparisons <- attr(dc_obj, "comparisons")
+
   if (comparisons == "one-v-one") {
     ggp <- ggp +
       facet_grid(`comp-` ~ `comp+`, labeller = label_parsed)
