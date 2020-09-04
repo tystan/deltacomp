@@ -1,26 +1,4 @@
 
-# Change notes
-
-The current version (v0.2.0, updated 2020-06-20) has following list of to-dos:
-
-* function (that calls `predict_delta_comps()`) that does the minutes in the day specifically by default (also deltas in minutes rather than proportions in output)
-* parameters in the model output should state what the ILRs are (what activities are the numerator/denominator of the ratios)
-* additional commenting
-    
-Changes since last version (v0.1.0):
-
-* the main function `get_plus_minus_changes()` has been more sensibly renamed to `predict_delta_comps()`
-* refactor and modularisation of `predict_delta_comps()`
-* the two types of reallocation (`prop-realloc` and `one-v-one`) are working correctly, unit tested
-* includes more checks to throw errors for obvious malfunctions
-* the mean composition now correctly uses the geometric mean (on the simplex) and not the naive arithmetic mean of the compositions
-* added plotting function `plot_delta_comp()` (see '5. Output and plotting results' below)
-* `predict_delta_comps()` now removes rows with `NA` values in input datasets (and warns the user)
-* the mean composition and the resulting predicted outcome with confidence interval is now produced by `predict_delta_comps()` (see '5.1 Prediction for the mean composition' below)
-* `predict_delta_comps()` now checks for compositional components of 0 [or non-sensical negative values] (geometric mean incompatable)
-* completed general testing and unit tests
-
-
 # The `deltacomp` package
 
 Functions to analyse compositional data and produce predictions (with confidence intervals) for relative increases and decreases in the compositional components
@@ -184,4 +162,8 @@ attr(pred_df, "mean_pred")
 
 ```
 
+
+## 6. Release notes
+
+See [/change-notes.md](https://github.com/tystan/deltacomp/blob/master/change-notes.md).
 

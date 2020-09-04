@@ -1,7 +1,7 @@
 Package: deltacomp
 Type: Package
 Title: Functions to analyse compositional data and produce confidence intervals for relative increases and decreases in the compositional components
-Version: 0.2.0
+Version: 0.2.1
 Date: 2020-05-15
 Author: Ty Stanford
 Maintainer: Ty Stanford <tystan@gmail.com>
