@@ -1,5 +1,15 @@
 
 
+#' Title
+#'
+#' @param comps 
+#' @param comparisons 
+#' @param poss_comps 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 get_realloc_nms <- function(comps, comparisons, poss_comps) {
 
   n_p <- nrow(poss_comps)

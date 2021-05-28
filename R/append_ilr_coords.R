@@ -1,3 +1,29 @@
+#' Add ILR coordinates to a data.frame containing composition variables
+#'
+#' @description Add ILR coordinates to a data.frame containing composition variables
+#' @param dataf data.frame containing composition variables
+#' @param comps character vector of composition variable names in dataf
+#' @param psi ilrBase passed to \code{compositions::ilr()}
+#' @export
+#' 
+#' @examples
+#' library(deltacomp)
+#' data(fat_data)
+#' head(fat_data)
+#' comp_vars <- c("sl", "sb", "lpa", "mvpa")
+#' # create sequential binary partition
+#' sbp <- create_seq_bin_part(length(comp_vars))
+#' # The orthonormal transformation matrix
+#' psi <- compositions::gsi.buildilrBase(sbp)
+#' head(append_ilr_coords(
+#'   fat_data,
+#'   comp_vars,
+#'   psi
+#' ))
+#' 
+#' 
+#' 
+
 
 append_ilr_coords <- function(dataf, comps, psi) {
 

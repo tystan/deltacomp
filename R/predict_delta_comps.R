@@ -1,7 +1,7 @@
 #' Get predictions from compositional ilr multiple linear regression model
 #'
 #' @author Ty Stanford <tystan@gmail.com>
-#' @description Provided the data (containing outcome, composiitional compoents and covariates), fit a ilr multiple linear regression model and provide predictions from reallocating compositional values pairwise amunsnst the components model.
+#' @description Provided the data (containing outcome, compositional components and covariates), fit a ilr multiple linear regression model and provide predictions from reallocating compositional values pairwise amunsnst the components model.
 #' @param dataf A \code{data.frame} containing data
 #' @param y Name (as string/character vector of length 1) of outcome variable in \code{dataf}
 #' @param comps Character vector of names of compositions in \code{dataf}. See details for more information.
@@ -9,14 +9,14 @@
 #' @param deltas A vector of time-component changes (as proportions of compositions , i.e., values between -1 and 1). Optional. 
 #' Changes in compositions to be computed pairwise. Defaults to 0, 10 and 20 minutes as a proportion of the 1440 minutes 
 #' in a day (i.e., approximately \code{0.000}, \code{0.007} and \code{0.014}).
-#' @param comparisons Currently three choices:  \code{"one-v-one"} or  \code{"prop-realloc"} (default). Please see details for explanation of these methods.
+#' @param comparisons Currently two choices:  \code{"one-v-one"} or  \code{"prop-realloc"} (default). Please see details for explanation of these methods.
 #' @param alpha Optional. Level of significance. Defaults to 0.05.
 #' @export
 #' @details 
-#' Values in the \code{comps} columns must be strictly greater than zero. These compositional values are NOT assumed to be contrained to (0, 1) 
+#' Values in the \code{comps} columns must be strictly greater than zero. These compositional values are NOT assumed to be constrained to (0, 1) 
 #' values as the function normalises the compositions row-wise to sum to 1 in part of it's processing of the dataset before analysis.
 #' 
-#' Please see the \code{deltacomp} package \code{README.md} file for examples and explaanation of the \code{comparisons = "prop-realloc"} and \code{comparisons = "one-v-one"} options. 
+#' Please see the \code{deltacomp} package \code{README.md} file for examples and explanation of the \code{comparisons = "prop-realloc"} and \code{comparisons = "one-v-one"} options. 
 #' 
 #' Note from version 0.1.0 to current version, \code{comparisons == "one-v-all"} is depreciated, \code{comparisons == "prop-realloc"} is probably the alternative you are after.
 #' @examples

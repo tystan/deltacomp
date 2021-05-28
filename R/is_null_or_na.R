@@ -1,5 +1,13 @@
 
 
+#' Title
+#'
+#' @param x 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 is_null_or_na <- function(x) {
   
   if (is.null(x)) {

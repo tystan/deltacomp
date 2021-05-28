@@ -1,4 +1,13 @@
 
+#' Title
+#'
+#' @param y_str 
+#' @param X 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 fit_lm <- function(y_str, X) {
 
 

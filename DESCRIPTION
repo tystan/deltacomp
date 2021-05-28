@@ -13,4 +13,4 @@ Imports: compositions,
     robCompositions,
     testthat,
     ggplot2
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1

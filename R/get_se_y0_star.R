@@ -1,5 +1,15 @@
 
 
+#' Title
+#'
+#' @param x0_star 
+#' @param s_e 
+#' @param XtX_inv 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 get_se_y0_star <- function(x0_star, s_e, XtX_inv) {
 
   matrix(s_e * sqrt(diag(x0_star %*% XtX_inv %*% t(x0_star))), ncol = 1)

@@ -1,27 +1,45 @@
 
 
-# comparisons = "one-v-all"
-# comparisons = "prop-realloc"
-# comparisons = "one-v-one"
 
+#' Creates row-wise perturbations of compositions from the mean composition
+#'
+#' @param comparisons currently two choices:  \code{"one-v-one"} or  \code{"prop-realloc"} (default).
+#' @param comps the names (character vector) of the compositional variables
+#' @param mean_comps the mean composition of \code{comps}
+#' @details 
+#' \code{comparisons = "one-v-one"} creates a matrix with \code{length(comps)} columns and \code{length(comps) * (length(comps) - 1)} rows. 
+#' The rows contain all pairs of variables with 1 and -1 values.
+#' 
+#' \code{comparisons = "prop-realloc"} creates a matrix with \code{length(comps)} columns and \code{length(comps)} rows. 
+#'  Each rows contains a 1 value for a compositional variable and the remaining values sum to -1 proportional to the \code{mean_comps} value for those variables. 
+#' 
+#' Note that for both \code{comparisons} options the net change is 0 (each row sums to 0).
+#' @export
+#'
+#' @examples
+#' create_comparison_matrix("one-v-one", LETTERS[1:3], c(0.5, 0.3, 0.2))
+#' create_comparison_matrix("prop-realloc", LETTERS[1:3], c(0.5, 0.3, 0.2))
 create_comparison_matrix <- function(comparisons, comps, mean_comps) {
 
   K <- poss_comps0 <- NULL
   n_comp <- length(comps)
   
-  if (comparisons == "one-v-all") {
+  ### depreciated
+  # if (comparisons == "one-v-all") {
+  #   
+  #   # number of combinations is:
+  #   # K = n_comps as only one combination per composition
+  #   K <- n_comp
+  #   poss_comps0 <- matrix(0, nrow = K, ncol = n_comp, dimnames = list(NULL, comps))
+  #   
+  #   for (k in 1:K) {
+  #     poss_comps0[k, k] <- 1
+  #     poss_comps0[k, -k] <- -1 / (K - 1) # equal distribution of allocation to other comps
+  #   }
+  #   
+  # } else 
     
-    # number of combinations is:
-    # K = n_comps as only one combination per composition
-    K <- n_comp
-    poss_comps0 <- matrix(0, nrow = K, ncol = n_comp, dimnames = list(NULL, comps))
-    
-    for (k in 1:K) {
-      poss_comps0[k, k] <- 1
-      poss_comps0[k, -k] <- -1 / (K - 1) # equal distribution of allocation to other comps
-    }
-    
-  } else if (comparisons == "prop-realloc") {
+  if (comparisons == "prop-realloc") {
     
     ### same as "one-vs-all" except the "1 / (K - 1)"s replaced by weighted means to sum to 1
     # number of combinations is:

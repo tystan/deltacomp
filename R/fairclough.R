@@ -1,4 +1,4 @@
-#' Data from Fairclough (2017). Fitness, fatness and the reallocation of time between children’s daily movement behaviours: an analysis of compositional data
+#' Data from Fairclough (2017). Fitness, fatness and the reallocation of time between children's daily movement behaviours: an analysis of compositional data
 #'
 #' A dataset containing z_bmi (outcome), time-use compositions (sl,sb,lpa,mvpa), and covariates
 #'  from the Fairclough (2017) paper. The data can be found in supp file 7 of the paper

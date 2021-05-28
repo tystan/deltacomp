@@ -1,5 +1,13 @@
 
 
+#' Title
+#'
+#' @param comparisons 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 get_comp_type <- function(comparisons) {
   
   comp_opts <- c("one-v-one", "one-v-all", "prop-realloc")

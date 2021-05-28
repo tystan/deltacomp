@@ -1,4 +1,30 @@
 
+#' Sanity checks for arguments passed to predict_delta_comps()
+#'
+#' @description Sanity checks for arguments passed to predict_delta_comps()
+#'
+#' @param dataf A \code{data.frame} containing data
+#' @param y Name (as string/character vector of length 1) of outcome variable in \code{dataf}
+#' @param comps Character vector of names of compositions in \code{dataf}. See details for more information.
+#' @param covars Character vector of covariates names  (non-comp variables) in \code{dataf} or NULL for none (default).
+#' @param deltas A vector of time-component changes (as proportions of compositions , i.e., values between -1 and 1). Optional. 
+#' @export
+#' @details 
+#' Throws errors for any problematic input. Returns \code{TRUE} invisibly if no issues found.
+#' @examples
+#' check_input_args(
+#'   dataf = fat_data,
+#'   y = "fat",
+#'   comps = c("sl", "sb", "lpa", "mvpa"),
+#'   covars = NULL,
+#'   deltas = seq(-60, 60, by = 5) / (24 * 60)
+#' )
+#' 
+#' 
+
+
+
+
 check_input_args <- function(dataf, y, comps, covars, deltas) {
   
   
