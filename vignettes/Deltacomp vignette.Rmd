@@ -1,12 +1,12 @@
 ---
-title: "Introduction to deltacomp"
+title: "deltacomp vignette"
 author: "Ty Stanford, Charlotte Lund Rasmussen, Dorothea Dumuid"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{deltacomp vignette}
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+  \usepackage[UTF-8]{inputenc}
 ---
 
 ```{r setup, include = FALSE}
@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 
 The goal of deltacomp is to provide ready-to-use functions enabling analysis of compositional data and produce predictions for relative increases and decreases in the compositional parts. 
 
-In the following, we provide examples of how to use the package functions `XX` and `XX`, provided in the package.
+In the following, we provide examples of how to use the package main functions: `predict_delta_comps` and `plot_delta_comp`.
 
 
 ## 1. Background: compositional isotemporal substitution analysis
@@ -33,7 +33,6 @@ where ilr_i are the D-1 isometric log ratio variables derived from the D composi
 For a starting point to learn about compositional data analysis please see [Aitchison (1982)](https://doi.org/10.1111/j.2517-6161.1982.tb01195.x) or [van den Boogaart and Tolosana-Delgado (2013)](https://link.springer.com/book/10.1007%2F978-3-642-36809-7). 
 
 However the articles [Dumuid et al. (2017a)](https://doi.org/10.1177/0962280217710835), [Dumuid et al. (2017b)](https://doi.org/10.1177%2F0962280217737805), and [Dumuid et al. (2020)](https://doi.org/10.3390/ijerph17072220) may be more approachable introductions both to compositional data analysis and compositional isotemporal substitution analysis.
-
 
 ## 2. Datasets in package
 
@@ -149,16 +148,16 @@ pred_df <-
 
 plot_delta_comp(
     pred_df, # provide the returned object from predict_delta_comps()
-    # x-axis can be converted from propotion of composition to meaningful units
     comp_total = 24 * 60, # minutes available in the composition
     units_lab = "min" # just a label for plotting
 )
 ```
-
+In this example we choose to to reallocate proportions of the time-use composition in minutes.
+However, the x-axis can be converted from proportions of composition to meaningful units. 
 
 ### 5.1. Prediction for the mean composition
 
-The function `predict_delta_comps()` now outputs the predicted outcome value (with `100 * (1 - alpha)`% confidence interval). This data is printed to the console but also can be extracted from the output of `predict_delta_comps()` as per the below code:
+It is possible to extract predictions for the mean composition from the output of `predict_delta_comps()` using the following code:
 
 ```{r}
 # produces a 1 line data.frame that contains 
@@ -170,5 +169,11 @@ attr(pred_df, "mean_pred")
 
 
 ```
+This will provide a 1 line `data frame` that contains
+- the (geometric) mean composition,
+- the ilr coordinates of the (geometric) mean composition,
+- the "average" covariates (i.e. the median of the factor variables in order of the levels are taken as default),
+- the predicted outcome value ("fit")
+- the 100*(1-alpha)% confidence intervals related to the predicted outcome ("lwr" and "upr", respetively)
 
 
