@@ -3,7 +3,7 @@
 
 The functions in the `deltacomp` package produce predictions (with confidence intervals) for relative increases and decreases in the compositional parts. 
 
-The development of the package was initiated by Ty Stanford and Dorothea Dumuid in 2018 and but is still under development. Major changes and corrections are expected to be made in 2021.
+The development of the package was initiated by Ty Stanford and Dorothea Dumuid in 2018 and is still under development. Changes and corrections are expected to be made during 2021.
 
 
 ## Installing `deltacomp`
