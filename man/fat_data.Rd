@@ -3,7 +3,7 @@
 \docType{data}
 \name{fat_data}
 \alias{fat_data}
-\title{Randomly generated data to simulate child fat percentage regressed on time-use composiitonal data}
+\title{Randomly generated data to simulate child fat percentage regressed on time-use compositional data}
 \format{
 A data frame with 100 rows and 8 variables
 }
@@ -12,7 +12,7 @@ data(fat_data)
 }
 \description{
 A dataset containing fat percentage (outcome), time-use compositions (sl,sb,lpa,mvpa), and covariates
- (sibs,parents,ed). Note sl+sb+lpa+mvpa=1440minutes for each subject. The variables are as follows:
+ (sibs,parents,ed). Note sl+sb+lpa+mvpa=1440 minutes for each subject. The variables are as follows:
 }
 \details{
 \itemize{
@@ -20,7 +20,7 @@ A dataset containing fat percentage (outcome), time-use compositions (sl,sb,lpa,
   \item sl. daily sleep in minutes (283--765)
   \item sb. sedentary behaviour in minutes (354--789)
   \item lpa. low-intensity physical activity in minutes (157--507)
-  \item mvpa. moderate- to vigourous-intensity physical activity in minutes (35--155)
+  \item mvpa. moderate- to vigorous-intensity physical activity in minutes (35--155)
   \item sibs. number of siblings (0,1,2,3,4)
   \item parents. number of parents/caregivers at home (1,2)
   \item ed. education level of parent(s) (0=high school, 1=diploma, 2=degree)

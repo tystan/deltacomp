@@ -7,6 +7,9 @@
 #' fd_w_nas[5, "ed"] <- NA
 #' fd_w_nas
 #' rm_na_data_rows(fd_w_nas, c("fat", "sl", "sb", "lpa", "mvpa", "sibs", "parents", "ed"))
+#'
+#' @param dataf 
+#' @param cols 
 
 rm_na_data_rows <- function(dataf, cols) {
   

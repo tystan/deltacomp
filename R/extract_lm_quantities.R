@@ -1,3 +1,20 @@
+#' Extract critical quantities from a lm object (for confidence interval calculations)
+#'
+#' @param lm_X a lm object
+#' @param alpha level of significance. Defaults to 0.05.
+#'
+#' @return
+#' A list containing the \code{lm}'s model matrix (\code{dmX}), 
+#' the inverse of \code{t(dmX) %*% dmX} (\code{XtX_inv}), 
+#' the standard error (\code{s_e}),
+#' the estimated single column beta matrix (\code{beta_hat}), and
+#' the critical value of the relevant degrees of freedom t-dist (\code{crit_val}).
+#' @export
+#'
+#' @examples
+#' data(fat_data)
+#' lm_fat <- lm(fat ~ sl, data = fat_data)
+#' extract_lm_quantities(lm_fat)
 extract_lm_quantities <- function(lm_X, alpha = 0.05) {
 
   # get the design matrix from the LM
