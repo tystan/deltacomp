@@ -2,16 +2,16 @@
 % Please edit documentation in R/is_lm_mod.R
 \name{is_lm_mod}
 \alias{is_lm_mod}
-\title{Title}
+\title{Is object that is returned from \code{lm()}?}
 \usage{
 is_lm_mod(x)
 }
 \arguments{
-\item{x}{}
+\item{x}{object to be tested}
 }
 \value{
-
+Boolean TRUE or FALSE
 }
 \description{
-Title
+Is object that is returned from \code{lm()}?
 }

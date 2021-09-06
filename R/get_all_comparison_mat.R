@@ -1,16 +1,6 @@
 
 
-#' Title
-#'
-#' @param deltas 
-#' @param comparisons 
-#' @param comps 
-#' @param mean_comps 
-#'
-#' @return
-#' @export
-#'
-#' @examples
+
 get_all_comparison_mat <- function(deltas, comparisons, comps, mean_comps) {
   
   n_delta <- length(deltas)

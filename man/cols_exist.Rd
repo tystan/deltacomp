@@ -18,9 +18,3 @@ Returns \code{TRUE} invisibly otherwise.
 \description{
 Check whether columns exist in a data.frame
 }
-\examples{
-data(fat_data)
-cols_exist(fat_data, c("lpa", "sl")) 
-# not run (throws error):
-# cols_exist(fat_data, "a") 
-}

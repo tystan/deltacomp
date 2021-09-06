@@ -1,13 +1,18 @@
 
 
-#' Title
+#' Catch NULL, empty and objects containing NAs
 #'
-#' @param x 
+#' @param x object to be tested
 #'
 #' @return
+#' Boolean. If object is NULL, empty or contains NA then TRUE returned. FALSE otherwise.
 #' @export
 #'
-#' @examples
+# @examples
+# is_null_or_na(NULL)
+# is_null_or_na(integer(0))
+# is_null_or_na(c(1, NA))
+# is_null_or_na(10)
 is_null_or_na <- function(x) {
   
   if (is.null(x)) {

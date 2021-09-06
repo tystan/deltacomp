@@ -1,6 +1,8 @@
 #exportPattern("^[[:alpha:]]+")
 exportPattern("predict_")
 exportPattern("plot_")
+exportPattern("fairclough")
+exportPattern("fat_data")
 importFrom("stats", "predict.lm", "as.formula", "coefficients", "df.residual", "lm", "median", "model.matrix", "qt", "quantile", "residuals")
 importFrom("utils", "head")
 importFrom("compositions", "gsi.buildilrBase", "ilr")

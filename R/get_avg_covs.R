@@ -1,13 +1,5 @@
 
-#' Title
-#'
-#' @param dataf 
-#' @param covars 
-#'
-#' @return
-#' @export
-#'
-#' @examples
+
 get_avg_covs <- function(dataf, covars) {
   
   n_cov <- length(covars)

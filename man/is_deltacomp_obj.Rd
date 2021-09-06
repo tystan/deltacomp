@@ -2,16 +2,16 @@
 % Please edit documentation in R/is_deltacomp_obj.R
 \name{is_deltacomp_obj}
 \alias{is_deltacomp_obj}
-\title{Title}
+\title{Is object that is returned from \code{pred_delta_comps()}?}
 \usage{
 is_deltacomp_obj(x)
 }
 \arguments{
-\item{x}{}
+\item{x}{object to be tested}
 }
 \value{
-
+Boolean TRUE or FALSE
 }
 \description{
-Title
+Is object that is returned from \code{pred_delta_comps()}?
 }

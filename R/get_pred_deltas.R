@@ -1,15 +1,7 @@
 
 
 
-#' Title
-#'
-#' @param delta_mat 
-#' @param realloc_nms 
-#'
-#' @return
-#' @export
-#'
-#' @examples
+
 get_pred_deltas <- function(delta_mat, realloc_nms) {
   
   n_p <- nrow(delta_mat)

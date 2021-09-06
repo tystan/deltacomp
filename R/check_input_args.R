@@ -11,16 +11,16 @@
 #' @export
 #' @details 
 #' Throws errors for any problematic input. Returns \code{TRUE} invisibly if no issues found.
-#' @examples
-#' check_input_args(
-#'   dataf = fat_data,
-#'   y = "fat",
-#'   comps = c("sl", "sb", "lpa", "mvpa"),
-#'   covars = NULL,
-#'   deltas = seq(-60, 60, by = 5) / (24 * 60)
-#' )
-#' 
-#' 
+# @examples
+# check_input_args(
+#   dataf = fat_data,
+#   y = "fat",
+#   comps = c("sl", "sb", "lpa", "mvpa"),
+#   covars = NULL,
+#   deltas = seq(-60, 60, by = 5) / (24 * 60)
+# )
+# 
+# 
 
 
 

@@ -1,15 +1,13 @@
 
-#' @examples 
-#' data(fat_data)
-#' fd_w_nas <- fat_data[1:10, ]
-#' fd_w_nas[1, "fat"] <- NA
-#' fd_w_nas[3, "sl"] <- NA
-#' fd_w_nas[5, "ed"] <- NA
-#' fd_w_nas
-#' rm_na_data_rows(fd_w_nas, c("fat", "sl", "sb", "lpa", "mvpa", "sibs", "parents", "ed"))
-#'
-#' @param dataf 
-#' @param cols 
+# @examples 
+# data(fat_data)
+# fd_w_nas <- fat_data[1:10, ]
+# fd_w_nas[1, "fat"] <- NA
+# fd_w_nas[3, "sl"] <- NA
+# fd_w_nas[5, "ed"] <- NA
+# fd_w_nas
+# rm_na_data_rows(fd_w_nas, c("fat", "sl", "sb", "lpa", "mvpa", "sibs", "parents", "ed"))
+
 
 rm_na_data_rows <- function(dataf, cols) {
   

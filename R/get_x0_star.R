@@ -1,16 +1,5 @@
 
-#' Title
-#'
-#' @param dmX 
-#' @param n_preds 
-#' @param ilr_names 
-#' @param ilr_delta 
-#' @param ilr_means 
-#'
-#' @return
-#' @export
-#'
-#' @examples
+
 get_x0_star <- function(dmX, n_preds, ilr_names, ilr_delta, ilr_means) {
 
   # get single row of design matrix

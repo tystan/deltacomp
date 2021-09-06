@@ -9,11 +9,11 @@
 #' Returns \code{TRUE} invisibly otherwise.
 #' @export
 #'
-#' @examples
-#' data(fat_data)
-#' check_strictly_positive_vals(fat_data, c("lpa", "sl"), tol = 1e-6) 
-#' # not run (throws error):
-#' # check_strictly_positive_vals(data.frame(a = rnorm(10)), "a", tol = 1e-6) 
+# @examples
+# data(fat_data)
+# check_strictly_positive_vals(fat_data, c("lpa", "sl"), tol = 1e-6) 
+# # not run (throws error):
+# # check_strictly_positive_vals(data.frame(a = rnorm(10)), "a", tol = 1e-6) 
 check_strictly_positive_vals <- function(dataf, comps, tol = 1e-6) {
   
   vals <- dataf[, comps]

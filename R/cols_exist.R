@@ -8,11 +8,11 @@
 #' Returns \code{TRUE} invisibly otherwise.
 #' @export
 #'
-#' @examples
-#' data(fat_data)
-#' cols_exist(fat_data, c("lpa", "sl")) 
-#' # not run (throws error):
-#' # cols_exist(fat_data, "a") 
+# @examples
+# data(fat_data)
+# cols_exist(fat_data, c("lpa", "sl")) 
+# # not run (throws error):
+# # cols_exist(fat_data, "a") 
 cols_exist <- function(dataf, cols) {
   
   if (is_null_or_na(cols)) {

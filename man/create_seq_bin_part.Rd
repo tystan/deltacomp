@@ -24,8 +24,3 @@ etc
 \description{
 Create a sequential binary partition indication matrix
 }
-\examples{
-create_seq_bin_part(3)
-create_seq_bin_part(4)
-create_seq_bin_part(10)
-}

@@ -2,16 +2,16 @@
 % Please edit documentation in R/is_null_or_na.R
 \name{is_null_or_na}
 \alias{is_null_or_na}
-\title{Title}
+\title{Catch NULL, empty and objects containing NAs}
 \usage{
 is_null_or_na(x)
 }
 \arguments{
-\item{x}{}
+\item{x}{object to be tested}
 }
 \value{
-
+Boolean. If object is NULL, empty or contains NA then TRUE returned. FALSE otherwise.
 }
 \description{
-Title
+Catch NULL, empty and objects containing NAs
 }

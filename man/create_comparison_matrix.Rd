@@ -25,7 +25,3 @@ The rows contain all pairs of variables with 1 and -1 values.
 
 Note that for both \code{comparisons} options the net change is 0 (each row sums to 0).
 }
-\examples{
-create_comparison_matrix("one-v-one", LETTERS[1:3], c(0.5, 0.3, 0.2))
-create_comparison_matrix("prop-realloc", LETTERS[1:3], c(0.5, 0.3, 0.2))
-}

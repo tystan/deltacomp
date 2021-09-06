@@ -1,13 +1,18 @@
 
-#' Title
+#' fit linear model based on input data.frame
 #'
-#' @param y_str 
-#' @param X 
+#' @param y_str a string representation of the column in \code{X} that is the outcome
+#' @param X a data.frame or matrix that contains the predictor and outcome variables
 #'
-#' @return
+#' @return 
+#' A \code{lm} object where the \code{y_str} column has been regressed against the remaining
+#' columns of \code{X} (with an intercept term as well).
+#' 
 #' @export
 #'
-#' @examples
+# @examples
+# data(fairclough)
+# fit_lm("bmi", fairclough[, c("bmi", "sex", "decimal_age")])
 fit_lm <- function(y_str, X) {
 
 

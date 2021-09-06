@@ -12,13 +12,12 @@ extract_lm_quantities(lm_X, alpha = 0.05)
 \item{alpha}{level of significance. Defaults to 0.05.}
 }
 \value{
-
+A list containing the \code{lm} model matrix (\code{dmX}), 
+the inverse of \code{t(dmX) x dmX} (\code{XtX_inv}), 
+the standard error (\code{s_e}),
+the estimated single column beta matrix (\code{beta_hat}), and
+the critical value of the relevant degrees of freedom t-dist (\code{crit_val}).
 }
 \description{
 Extract critical quantities from a lm object (for confidence interval calculations)
-}
-\examples{
-data(fat_data)
-lm_fat <- lm(fat ~ sl, data = fat_data)
-extract_lm_quantities(lm_fat)
 }

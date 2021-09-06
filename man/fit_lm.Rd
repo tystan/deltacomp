@@ -2,18 +2,19 @@
 % Please edit documentation in R/fit_lm.R
 \name{fit_lm}
 \alias{fit_lm}
-\title{Title}
+\title{fit linear model based on input data.frame}
 \usage{
 fit_lm(y_str, X)
 }
 \arguments{
-\item{y_str}{}
+\item{y_str}{a string representation of the column in \code{X} that is the outcome}
 
-\item{X}{}
+\item{X}{a data.frame or matrix that contains the predictor and outcome variables}
 }
 \value{
-
+A \code{lm} object where the \code{y_str} column has been regressed against the remaining
+columns of \code{X} (with an intercept term as well).
 }
 \description{
-Title
+fit linear model based on input data.frame
 }

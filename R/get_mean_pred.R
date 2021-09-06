@@ -1,13 +1,6 @@
-#' Title
-#'
-#' @param lm_obj 
-#' @param newdata 
-#' @param alpha 
-#'
-#' @return
-#' @export
-#'
-#' @examples
+
+
+
 get_mean_pred <- function(lm_obj, newdata, alpha = 0.05) {
   
   m_pred <- predict.lm(lm_obj, newdata = newdata, interval = "confidence", level = 1 - alpha)

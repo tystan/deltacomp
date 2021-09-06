@@ -1,16 +1,6 @@
 
 
 
-
-#' Title
-#'
-#' @param dataf 
-#' @param comps 
-#'
-#' @return
-#' @export
-#'
-#' @examples
 standardise_comps <- function(dataf, comps) {
   
   # standardise comps

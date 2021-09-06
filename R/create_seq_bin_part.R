@@ -17,10 +17,10 @@
 #' etc
 #' @export
 #'
-#' @examples
-#' create_seq_bin_part(3)
-#' create_seq_bin_part(4)
-#' create_seq_bin_part(10)
+# @examples
+# create_seq_bin_part(3)
+# create_seq_bin_part(4)
+# create_seq_bin_part(10)
 create_seq_bin_part <- function(n_comp) {
 
 
