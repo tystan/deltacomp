@@ -3,6 +3,9 @@
 
 Functions to analyse compositional data and produce predictions (with confidence intervals) for relative increases and decreases in the compositional components
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5513245.svg)](https://doi.org/10.5281/zenodo.5513245)
+
+
 ## 1. Background
 
 For an outcome variable `Y`, *D* compositional variables (`x_1, ..., x_D`) and *C* covariates (`z_1, ..., z_C`); this package fits the compositional data analysis model (notation inexact):
