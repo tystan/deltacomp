@@ -16,7 +16,7 @@ For an outcome variable `Y`, *D* compositional variables (`x_1, ..., x_D`) and *
 where `ilr_i` are the *D-1* isometric log ratio variables derived from the *D* compositional variables (`x_1, ..., x_D`), `b_0, ...,  b_{D-1}, a_1, ..., a_C` are *D+C* parameters to be estimated and `e ~ N(0, sigma)` is the error. The package then makes predictions in alterations of the time-use variables (the linearly dependent set of compositional components) based on this model. 
 
 
-For a starting point to learn about compositional data analysis please see [Aitchison (1982)](https://doi.org/10.1111/j.2517-6161.1982.tb01195.x) or [van den Boogaart and Tolosana-Delgado (2013)](https://link.springer.com/book/10.1007%2F978-3-642-36809-7). However the articles [Dumuid et al. (2017a)](https://doi.org/10.1177/0962280217710835) and [Dumuid et al. (2017b)](https://doi.org/10.1177%2F0962280217737805) may be more approachable introductions.
+For a starting point to learn about compositional data analysis please see [Aitchison (1982)](https://doi.org/10.1111/j.2517-6161.1982.tb01195.x) or [van den Boogaart and Tolosana-Delgado (2013)](https://link.springer.com/book/10.1007/978-3-642-36809-7). However the articles [Dumuid et al. (2017a)](https://doi.org/10.1177/0962280217710835) and [Dumuid et al. (2017b)](https://doi.org/10.1177/0962280217737805) may be more approachable introductions.
 
 
 ## 2. Reallocation of time-use component options
@@ -48,7 +48,7 @@ Note for the example above, the option `comparisons = "prop-realloc"` in `predic
 ### 2.2. Option `comparisons = "one-v-one"` 
 
 For information on outcome prediction with time-use exchange between two compositional components (i.e., the `comparisons = "one-v-one"` option of the `predict_delta_comps()` function), please see
-[Dumuid et al. (2017b)](https://doi.org/10.1177%2F0962280217737805).
+[Dumuid et al. (2017b)](https://doi.org/10.1177/0962280217737805).
 
 ### 2.2.1. Example
 
