@@ -1,11 +1,12 @@
 Package: deltacomp
 Type: Package
-Title: Functions to analyse compositional data and produce confidence intervals for relative increases and decreases in the compositional components
+Title: Functions to Analyse Compositional Data and Produce Confidence Intervals for Relative Increases and Decreases in the Compositional Components
 Version: 0.2.2
 Date: 2022-03-09
-Author: Ty Stanford
-Maintainer: Ty Stanford <tystan@gmail.com>
-Description: Provided the data (containing outcome, compositional components and covariates), fit an ilr multiple linear regression model and provide predictions from reallocating compositional values pairwise amongst the components model.
+Authors@R: c(
+    person("Ty", "Stanford", email = "tystan@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-8570-5493")),
+    person("Dot", "Dumuid", email = "dot.dumuid@unisa.edu.au", role = "aut", comment = c(ORCID = "0000-0003-3057-0963")))
+Description: Provided data containing an outcome variable, compositional variables and additional covariates (optional); regress the outcome variable on an isometric log ratio (ilr) transformation of the linearly dependent compositional variables. The package provides predictions (with confidence intervals) in the change (delta) in the outcome/response variable based on the multiple linear regression model and evenly spaced reallocations of the compositional values.
 License: GPL-2
 Encoding: UTF-8
 LazyData: true
