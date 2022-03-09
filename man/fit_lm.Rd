@@ -4,12 +4,14 @@
 \alias{fit_lm}
 \title{fit linear model based on input data.frame}
 \usage{
-fit_lm(y_str, X)
+fit_lm(y_str, X, verbose = TRUE)
 }
 \arguments{
 \item{y_str}{a string representation of the column in \code{X} that is the outcome}
 
 \item{X}{a data.frame or matrix that contains the predictor and outcome variables}
+
+\item{verbose}{if \code{TRUE} (default), a model summary will be printed to the console}
 }
 \value{
 A \code{lm} object where the \code{y_str} column has been regressed against the remaining

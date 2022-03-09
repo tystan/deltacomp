@@ -22,7 +22,12 @@ get_comp_type <- function(comparisons) {
       paste(comp_opts, collapse = "|")
     )
   
-  cat("Comparison type being used in post-hoc calculations: '", analysis_to_use, "'\n", sep = "")
+  cat(
+    "---\nComparison type being used in post-hoc calculations: '", 
+    analysis_to_use, 
+    "'\n---\n\n", 
+    sep = ""
+  )
   
   return(analysis_to_use)
   

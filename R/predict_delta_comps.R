@@ -98,21 +98,30 @@ predict_delta_comps <- function(
     mean_X <- cbind(mean_X, m_cov)
     # print(tibble::as_tibble(mean_X))
   }
+
+  # The ilr basis matrix
+  psi <- create_v_mat(n_comp)
+  ### previously:
+  # sbp <- create_seq_bin_part(n_comp); psi <- compositions::gsi.buildilrBase(sbp)
   
-  # create sequential binary partition
-  sbp <- create_seq_bin_part(n_comp)
-  # The orthonormal transformation matrix
-  psi <- compositions::gsi.buildilrBase(sbp)
   # add ilr coords to dataset
   dataf <- append_ilr_coords(dataf, comps, psi)
   mean_X <- append_ilr_coords(mean_X, comps, psi)
   # print(tibble::as_tibble(mean_X))
+  print_ilr_trans(comps) # print to console the ilr transformation for the user
   
   # create dataset X only consisting of outcome, ilr coords and covars
   ilr_names <- paste0("ilr", 1:(n_comp - 1))
-  X <- dataf[, colnames(dataf) %in% c(y, ilr_names, covars)] 
+  # X <- dataf[, colnames(dataf) %in% c(y, ilr_names, covars)] 
+  X <- dataf[, c(y, ilr_names, covars)] # force order 
   # fit model
   lm_X <- fit_lm(y, X)
+  
+  # ANOVA of whether compositional variables are statistically significant collectively
+  # note drop = FALSE in case no covariates and 
+  # stop one column from data.frame becoming vector
+  compare_two_lm(y, X[, c(y, covars), drop = FALSE], X[, c(y, covars, ilr_names)])
+  
   
   mean_pred <- get_mean_pred(lm_X, mean_X, alpha = alpha)
   # extract linear model quantities required for further calculations
@@ -183,7 +192,7 @@ predict_delta_comps <- function(
   attr(ret_obj, "deltas") <- deltas
   attr(ret_obj, "comparisons") <- comparisons
   attr(ret_obj, "alpha") <- alpha
-  attr(ret_obj, "irl_basis") <- psi
+  attr(ret_obj, "ilr_basis") <- psi
   attr(ret_obj, "mean_pred") <- mean_pred
   
   return(ret_obj)

@@ -6,11 +6,12 @@ get_avg_covs <- function(dataf, covars) {
   m_cov <- vector(mode = "list", length = n_cov)
   names(m_cov) <- covars
   
+  cat("---\n")
   for (j in 1:n_cov) { # testing; j <- 1
     
     this_covar <- dataf[, covars[j]]
     
-    cat("The 'average' case to be used for prediction of covariate", covars[j] , "is ")
+    cat("* The 'average' case to be used for prediction of covariate", covars[j] , "is ")
     if (is.factor(this_covar)) {
       levs <- levels(this_covar)
       m_temp <- median(as.integer(this_covar))
@@ -27,6 +28,7 @@ get_avg_covs <- function(dataf, covars) {
     }
     
   }
+  cat("---\n\n") # give extra space to separate output in console
 
   return(as.data.frame(m_cov))
   

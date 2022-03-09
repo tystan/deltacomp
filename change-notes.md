@@ -4,9 +4,17 @@
 ## To-dos
 
 * function (that calls `predict_delta_comps()`) that does the minutes in the day specifically by default (also deltas in minutes rather than proportions in output)
-* parameters in the model output should state what the ILRs are (what activities are the numerator/denominator of the ratios)
 * additional commenting
+* additional unit tests
 
+
+## Version 0.2.2 (2022-03-09)
+
+Improved output: 
+
+* The output to console is now better spaced with dividers (`---`) for easier reading
+* The ilrs (`ilr1`, `ilr2`, ...) are defined in terms of the input compositional variables in `predict_delta_comps()` output (printed to console)
+* `predict_delta_comps()` now prints to the console a statistical test for the ilrs being collectively significant in the model (i.e., do they improve the model statistically?)
 
 ## Version 0.2.1 (2020-09-04)
 

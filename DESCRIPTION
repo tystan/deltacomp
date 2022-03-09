@@ -1,15 +1,15 @@
 Package: deltacomp
 Type: Package
 Title: Functions to analyse compositional data and produce confidence intervals for relative increases and decreases in the compositional components
-Version: 0.2.1
-Date: 2020-05-15
+Version: 0.2.2
+Date: 2022-03-09
 Author: Ty Stanford
 Maintainer: Ty Stanford <tystan@gmail.com>
-Description: Provided the data (containing outcome, composiitional compoents and covariates), fit a ilr multiple linear regression model and provide predictions from reallocating compositional values pairwise amunsnst the components model.
+Description: Provided the data (containing outcome, compositional components and covariates), fit an ilr multiple linear regression model and provide predictions from reallocating compositional values pairwise amongst the components model.
 License: GPL-2
 Encoding: UTF-8
 LazyData: true
 Imports: compositions,
     ggplot2
 Suggests: testthat
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
