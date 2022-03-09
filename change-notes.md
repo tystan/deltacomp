@@ -6,6 +6,7 @@
 * function (that calls `predict_delta_comps()`) that does the minutes in the day specifically by default (also deltas in minutes rather than proportions in output)
 * additional commenting
 * additional unit tests
+* remove `compositions` package dependency
 
 
 ## Version 0.2.2 (2022-03-09)
