@@ -189,6 +189,7 @@ predict_delta_comps <- function(
   attr(ret_obj, "y") <- y
   attr(ret_obj, "comps") <- comps
   attr(ret_obj, "covars") <- covars
+  attr(ret_obj, "lm") <- lm_X 
   attr(ret_obj, "deltas") <- deltas
   attr(ret_obj, "comparisons") <- comparisons
   attr(ret_obj, "alpha") <- alpha
