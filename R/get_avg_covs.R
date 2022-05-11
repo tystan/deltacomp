@@ -9,7 +9,7 @@ get_avg_covs <- function(dataf, covars) {
   cat("---\n")
   for (j in 1:n_cov) { # testing; j <- 1
     
-    this_covar <- dataf[, covars[j]]
+    this_covar <- dataf[[covars[j]]] # dataf[, covars[j]]: this won't be a vector for tibbles
     
     cat("* The 'average' case to be used for prediction of covariate", covars[j] , "is ")
     if (is.factor(this_covar)) {
