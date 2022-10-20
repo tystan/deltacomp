@@ -1,4 +1,4 @@
-**Please note that this package has been migrated to the package `codarealloclm` (CoDA reallocation linear model). `deltacomp` is no longer maintained but all functions are available in the actively maintained `codarealloclm` package available on github here: [github.com/tystan/codarealloclm](https://github.com/tystan/codarealloclm).**
+**Please note that this package has been migrated to the package `codaredistlm` (CoDA redistribution linear model). `deltacomp` is no longer maintained but all functions are available in the actively maintained `codaredistlm` package available on github here: [github.com/tystan/codaredistlm](https://github.com/tystan/codaredistlm).**
 
 # The `deltacomp` package
 
