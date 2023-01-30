@@ -8,9 +8,11 @@ predict_delta_comps(
   dataf,
   y,
   comps,
+  comps_fup = NULL,
   covars = NULL,
-  deltas = c(0, 10, 20)/(24 * 60),
+  analysis_type = c("cross-sectional", "long_prospective", "long_change")[1],
   comparisons = c("prop-realloc", "one-v-one")[1],
+  deltas = c(0, 10, 20)/(24 * 60),
   alpha = 0.05
 )
 }
@@ -23,11 +25,11 @@ predict_delta_comps(
 
 \item{covars}{Optional. Character vector of covariates names  (non-comp variables) in \code{dataf}. Defaults to NULL.}
 
+\item{comparisons}{Currently two choices:  \code{"one-v-one"} or  \code{"prop-realloc"} (default). Please see details for explanation of these methods.}
+
 \item{deltas}{A vector of time-component changes (as proportions of compositions , i.e., values between -1 and 1). Optional. 
 Changes in compositions to be computed pairwise. Defaults to 0, 10 and 20 minutes as a proportion of the 1440 minutes 
 in a day (i.e., approximately \code{0.000}, \code{0.007} and \code{0.014}).}
-
-\item{comparisons}{Currently two choices:  \code{"one-v-one"} or  \code{"prop-realloc"} (default). Please see details for explanation of these methods.}
 
 \item{alpha}{Optional. Level of significance. Defaults to 0.05.}
 }

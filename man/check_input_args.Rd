@@ -4,7 +4,7 @@
 \alias{check_input_args}
 \title{Sanity checks for arguments passed to predict_delta_comps()}
 \usage{
-check_input_args(dataf, y, comps, covars, deltas)
+check_input_args(dataf, y, comps, comps_fup, covars, deltas)
 }
 \arguments{
 \item{dataf}{A \code{data.frame} containing data}
@@ -12,6 +12,8 @@ check_input_args(dataf, y, comps, covars, deltas)
 \item{y}{Name (as string/character vector of length 1) of outcome variable in \code{dataf}}
 
 \item{comps}{Character vector of names of compositions in \code{dataf}. See details for more information.}
+
+\item{comps_fup}{Character vector of names of compositions at follow up in \code{dataf}. See details for more information.}
 
 \item{covars}{Character vector of covariates names  (non-comp variables) in \code{dataf} or NULL for none (default).}
 
