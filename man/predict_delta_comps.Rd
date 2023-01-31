@@ -10,7 +10,7 @@ predict_delta_comps(
   comps,
   comps_fup = NULL,
   covars = NULL,
-  analysis_type = c("cross-sectional", "long_prospective", "long_change")[1],
+  analysis_type = c("cross-sectional", "longitudinal")[1],
   comparisons = c("prop-realloc", "one-v-one")[1],
   deltas = c(0, 10, 20)/(24 * 60),
   alpha = 0.05
@@ -21,9 +21,13 @@ predict_delta_comps(
 
 \item{y}{Name (as string/character vector of length 1) of outcome variable in \code{dataf}}
 
-\item{comps}{Character vector of names of compositions in \code{dataf}. See details for more information.}
+\item{comps}{Optional character vector of names of compositions in \code{dataf}. See details for more information.}
+
+\item{comps_fup}{Character vector of names of compositions at follow-up in \code{dataf}. See details for more information.}
 
 \item{covars}{Optional. Character vector of covariates names  (non-comp variables) in \code{dataf}. Defaults to NULL.}
+
+\item{analysis_type}{Currently two choices:  \code{"cross-sectional"} (default) or  \code{"longitudinal"}. Please see details for explanation of these methods.}
 
 \item{comparisons}{Currently two choices:  \code{"one-v-one"} or  \code{"prop-realloc"} (default). Please see details for explanation of these methods.}
 
@@ -43,6 +47,8 @@ values as the function normalises the compositions row-wise to sum to 1 in part 
 Please see the \code{deltacomp} package \code{README.md} file for examples and explanation of the \code{comparisons = "prop-realloc"} and \code{comparisons = "one-v-one"} options. 
 
 Note from version 0.1.0 to current version, \code{comparisons == "one-v-all"} is depreciated, \code{comparisons == "prop-realloc"} is probably the alternative you are after.
+
+\code{analysis_type == "longitudinal"} expects a second measurement of the composition (\code{comps_fup}). If longitudinal, the ilr coordinates of the follow-up composition will be calculated and used as covariates to adjust the regression model.
 }
 \examples{
 predict_delta_comps(
@@ -64,7 +70,6 @@ predict_delta_comps(
   comparisons = "one-v-one",
   alpha = 0.05
 )
-
 }
 \author{
 Ty Stanford <tystan@gmail.com>

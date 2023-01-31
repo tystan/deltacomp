@@ -4,12 +4,7 @@
 \alias{plot_delta_comp}
 \title{Get predictions from compositional ilr multiple linear regression model}
 \usage{
-plot_delta_comp(
-  dc_obj,
-  comp_total = NULL,
-  units_lab = NULL,
-  graph.sys = c("base", "ggplot2")[2]
-)
+plot_delta_comp(dc_obj, comp_total = NULL, units_lab = NULL)
 }
 \arguments{
 \item{dc_obj}{A \code{deltacomp_obj} object returned from the function \code{predict_delta_comps}}
@@ -17,8 +12,6 @@ plot_delta_comp(
 \item{comp_total}{A numeric scalar that is the original units of the composition to make the x-axis the original scale instead of in the range \code{[min(delta), max(delta)]} in (-1, 1).}
 
 \item{units_lab}{Character string of the units of the compositions relating to \code{comp_total} to add to the x-axis label}
-
-\item{graph.sys}{Graphing system within R. This defaults to "ggplot2" but can be one out of c("base","ggplot2").}
 }
 \description{
 Provided the data (containing outcome, composiitional compoents and covariates), fit a ilr multiple linear regression model and provide predictions from reallocating compositional values pairwise amunsnst the components model.

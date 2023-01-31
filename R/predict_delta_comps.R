@@ -4,11 +4,13 @@
 #' @description Provided the data (containing outcome, compositional components and covariates), fit a ilr multiple linear regression model and provide predictions from reallocating compositional values pairwise amunsnst the components model.
 #' @param dataf A \code{data.frame} containing data
 #' @param y Name (as string/character vector of length 1) of outcome variable in \code{dataf}
-#' @param comps Character vector of names of compositions in \code{dataf}. See details for more information.
+#' @param comps Optional character vector of names of compositions in \code{dataf}. See details for more information.
+#' @param comps_fup Character vector of names of compositions at follow-up in \code{dataf}. See details for more information.
 #' @param covars Optional. Character vector of covariates names  (non-comp variables) in \code{dataf}. Defaults to NULL.
 #' @param deltas A vector of time-component changes (as proportions of compositions , i.e., values between -1 and 1). Optional. 
 #' Changes in compositions to be computed pairwise. Defaults to 0, 10 and 20 minutes as a proportion of the 1440 minutes 
 #' in a day (i.e., approximately \code{0.000}, \code{0.007} and \code{0.014}).
+#' @param analysis_type Currently two choices:  \code{"cross-sectional"} (default) or  \code{"longitudinal"}. Please see details for explanation of these methods.
 #' @param comparisons Currently two choices:  \code{"one-v-one"} or  \code{"prop-realloc"} (default). Please see details for explanation of these methods.
 #' @param alpha Optional. Level of significance. Defaults to 0.05.
 #' @export
@@ -19,6 +21,9 @@
 #' Please see the \code{deltacomp} package \code{README.md} file for examples and explanation of the \code{comparisons = "prop-realloc"} and \code{comparisons = "one-v-one"} options. 
 #' 
 #' Note from version 0.1.0 to current version, \code{comparisons == "one-v-all"} is depreciated, \code{comparisons == "prop-realloc"} is probably the alternative you are after.
+#' 
+#' \code{analysis_type == "longitudinal"} expects a second measurement of the composition (\code{comps_fup}). If longitudinal, the ilr coordinates of the follow-up composition will be calculated and used as covariates to adjust the regression model.
+#' 
 #' @examples
 #' predict_delta_comps(
 #'   dataf = fat_data,
@@ -40,20 +45,19 @@
 #'   comparisons = "one-v-one",
 #'   alpha = 0.05
 #' )
-#'
 
 predict_delta_comps <- function(
-  dataf, # data.frame of data
-  y, # character name of outcome in dataf
-  comps, # character vector of names of compositions in dataf
-  comps_fup = NULL, # character vector of names of compositions at follow up in dataf
-  covars = NULL, # character vector of names of covariates (non-comp variables) in dataf
-  analysis_type = c("cross-sectional", "long_prospective", "long_change")[1],
-  comparisons = c("prop-realloc", "one-v-one")[1],
-  deltas = c(0, 10, 20) / (24 * 60), # changes in compositions to be computed pairwise
-  alpha = 0.05
+    dataf, # data.frame of data
+    y, # character name of outcome in dataf
+    comps, # character vector of names of compositions in dataf
+    comps_fup = NULL, # character vector of names of compositions at follow up in dataf
+    covars = NULL, # character vector of names of covariates (non-comp variables) in dataf
+    analysis_type = c("cross-sectional", "longitudinal")[1],
+    comparisons = c("prop-realloc", "one-v-one")[1],
+    deltas = c(0, 10, 20) / (24 * 60), # changes in compositions to be computed pairwise
+    alpha = 0.05
 ){
-
+  
   # perform some basic input checks - throws errors where input incorrect
   check_input_args(dataf, y, comps, comps_fup, covars, deltas)
   if (is_null_or_na(covars)) { # convert 0 length vecs and NAs to NULL
@@ -67,7 +71,7 @@ predict_delta_comps <- function(
   check_input_args(dataf, y, comps, comps_fup, covars, deltas)
   check_strictly_positive_vals(dataf, comps)
   comparisons <- get_comp_type(comparisons) 
-    
+  
   # set up function constants
   n <- nrow(dataf)
   n_comp <- length(comps)
@@ -76,7 +80,7 @@ predict_delta_comps <- function(
   
   # standardise comps
   dataf <- standardise_comps(dataf, comps)
-  if (!is.null(comps_fup) & analysis_type != "cross-sectional") dataf <- standardise_comps(dataf, comps_fup)
+  if (!is.null(comps_fup) & analysis_type == "longitudinal") dataf <- standardise_comps(dataf, comps_fup)
   
   # get the mean of the compositions on the geometric scale
   mean_comps <- 
@@ -117,7 +121,7 @@ predict_delta_comps <- function(
     mean_X <- cbind(mean_X, m_cov)
     # print(tibble::as_tibble(mean_X))
   }
-
+  
   # The ilr basis matrix
   psi <- create_v_mat(n_comp)
   ### previously:
@@ -126,35 +130,32 @@ predict_delta_comps <- function(
   # add ilr coords to dataset
   dataf <- append_ilr_coords(dataf, comps, psi)
   mean_X <- append_ilr_coords(mean_X, comps, psi)
-  if (!is.null(comps_fup) & analysis_type != "cross-sectional") {
+
+  if (!is.null(comps_fup) & analysis_type == "longitudinal") {
+    # change baseline ilr names to avoid confusion
+    colnames(dataf)[1:(n_comp - 1)] = paste0(colnames(dataf)[1:(n_comp - 1)], "_bl")
+    colnames(mean_X)[1:(n_comp - 1)] = paste0(colnames(mean_X)[1:(n_comp - 1)], "_bl")
     dataf <- append_ilr_coords(dataf, comps_fup, psi)
     mean_X <- append_ilr_coords(mean_X, comps_fup, psi)
-    
+    # change baseline ilr names to avoid confusion
+    colnames(dataf)[1:(n_comp - 1)] = paste0(colnames(dataf)[1:(n_comp - 1)], "_fup")
+    colnames(mean_X)[1:(n_comp - 1)] = paste0(colnames(mean_X)[1:(n_comp - 1)], "_fup")
+    # reset baseline ilr names
+    colnames(dataf)[(n_comp):(n_comp + (n_comp - 2))] = gsub("_bl", "", colnames(dataf)[(n_comp):(n_comp + (n_comp - 2))])
+    colnames(mean_X)[(n_comp):(n_comp + (n_comp - 2))] = gsub("_bl", "", colnames(mean_X)[(n_comp):(n_comp + (n_comp - 2))])
   }
   # print(tibble::as_tibble(mean_X))
   print_ilr_trans(comps) # print to console the ilr transformation for the user
   
   # create dataset X only consisting of outcome, ilr coords and covars
   ilr_names <- paste0("ilr", 1:(n_comp - 1))
-  if (!is.null(comps_fup) & analysis_type != "cross-sectional") {
-    ilr_names_fup = paste0(ilr_names, "_fup")
-    colnames(dataf)[n_comp:(n_comp + (n_comp - 2))] = ilr_names_fup
-    colnames(mean_X)[n_comp:(n_comp + (n_comp - 2))] = ilr_names_fup
-  }
+  
   # X <- dataf[, colnames(dataf) %in% c(y, ilr_names, covars)] 
   X <- dataf[, c(y, ilr_names, covars)] # force order 
-  if (!is.null(comps_fup) & analysis_type != "cross-sectional") {
-    if (analysis_type == "long_prospective") {
-      X <- dataf[, c(y, ilr_names, ilr_names_fup, covars)] # force order 
-      covars = c(covars, ilr_names_fup)
-    } else if (analysis_type == "long_change") {
-      dataf[, ilr_names_fup] = dataf[, ilr_names_fup] - dataf[, ilr_names]
-      ilr_names_fup = gsub("_fup", "_ch", ilr_names_fup)
-      colnames(dataf) = gsub("_fup", "_ch", colnames(dataf))
-      colnames(mean_X) = gsub("_fup", "_ch", colnames(mean_X))
-      X <- dataf[, c(y, ilr_names_fup, ilr_names, covars)] # force order 
-      covars = c(covars, ilr_names)
-    }
+  if (!is.null(comps_fup) & analysis_type == "longitudinal") {
+    ilr_names_fup = paste0(ilr_names, "_fup")
+    X <- dataf[, c(y, ilr_names, ilr_names_fup, covars)] # force order 
+    covars = c(covars, ilr_names_fup)
   }
   # fit model
   lm_X <- fit_lm(y, X)
@@ -162,32 +163,19 @@ predict_delta_comps <- function(
   # ANOVA of whether compositional variables are statistically significant collectively
   # note drop = FALSE in case no covariates and 
   # stop one column from data.frame becoming vector
-  if (analysis_type == "cross-sectional" | analysis_type == "long_prospective") {
-    compare_two_lm(y, X[, c(y, covars), drop = FALSE], X[, c(y, covars, ilr_names)])
-  } else if (analysis_type == "long_change") {
-    compare_two_lm(y, X[, c(y, covars), drop = FALSE], X[, c(y, covars, ilr_names_fup)])
-  }
+  compare_two_lm(y, X[, c(y, covars), drop = FALSE], X[, c(y, covars, ilr_names)])
   
   mean_pred <- get_mean_pred(lm_X, mean_X, alpha = alpha)
   # extract linear model quantities required for further calculations
   lm_quants <- extract_lm_quantities(lm_X, alpha = alpha)
   
-  if (analysis_type == "cross-sectional" | analysis_type == "long_prospective") {
-    delta_mat <- get_delta_mat(deltas, comparisons, comps, mean_comps)
-    n_preds <- nrow(delta_mat)
-    poss_comps <- get_all_comparison_mat(deltas, comparisons, comps, mean_comps)
-    
-    m_comps <- matrix(rep(mean_comps, n_preds), nrow = n_preds, byrow = TRUE)
-    m_delta <- m_comps + delta_mat
-    
-  } else if (analysis_type == "long_change") {
-    delta_mat <- get_delta_mat(deltas, comparisons, comps_fup, mean_comps_fup)
-    n_preds <- nrow(delta_mat)
-    poss_comps <- get_all_comparison_mat(deltas, comparisons, comps_fup, mean_comps_fup)
-    
-    m_comps <- matrix(rep(mean_comps_fup, n_preds), nrow = n_preds, byrow = TRUE)
-    m_delta <- m_comps + delta_mat
-  }
+  delta_mat <- get_delta_mat(deltas, comparisons, comps, mean_comps)
+  n_preds <- nrow(delta_mat)
+  poss_comps <- get_all_comparison_mat(deltas, comparisons, comps, mean_comps)
+  
+  m_comps <- matrix(rep(mean_comps, n_preds), nrow = n_preds, byrow = TRUE)
+  m_delta <- m_comps + delta_mat
+  
   
   m_delta_less_0 <- rowSums(m_delta < 0)
   if(any(m_delta_less_0 > 0)) {
@@ -211,21 +199,15 @@ predict_delta_comps <- function(
   attr(ilr_delta, "class") <- NULL 
   attr(ilr_means, "class") <- NULL 
   
-  if (analysis_type == "cross-sectional" | analysis_type == "long_prospective") {
-    x0_star <- get_x0_star(lm_quants$dmX, n_preds, ilr_names, ilr_delta, ilr_means)
-  } else if (analysis_type == "long_change") {
-    x0_star <- get_x0_star(lm_quants$dmX, n_preds, ilr_names_fup, ilr_delta, ilr_means)
-  }
+  x0_star <- get_x0_star(lm_quants$dmX, n_preds, ilr_names, ilr_delta, ilr_means)
+  
   y0_star <- x0_star %*% lm_quants$beta_hat
   se_y0_star <- get_se_y0_star(x0_star, lm_quants$s_e, lm_quants$XtX_inv)
   
   
   # get labels and deltas for reallocations
-  if (analysis_type == "cross-sectional" | analysis_type == "long_prospective") {
-    realloc_nms <- get_realloc_nms(comps, comparisons, poss_comps) 
-  } else if (analysis_type == "long_change") {
-    realloc_nms <- get_realloc_nms(comps_fup, comparisons, poss_comps) 
-  }
+  realloc_nms <- get_realloc_nms(comps, comparisons, poss_comps) 
+  
   delta_list <- get_pred_deltas(delta_mat, realloc_nms)
   
   
@@ -260,5 +242,5 @@ predict_delta_comps <- function(
   attr(ret_obj, "mean_pred") <- mean_pred
   
   return(ret_obj)
-
+  
 }
