@@ -38,17 +38,19 @@ test_that("check_strictly_positive_vals() correctly throws errors for bad input"
     "Values less than"
   )
   expect_error(
-    predict_delta_comps(dataf = f2, fa_y, fa_comps, fa_covars, fa_deltas, fa_comparisons, fa_alpha),
+    predict_delta_comps(dataf = f2, y = fa_y, comps = fa_comps, covars = fa_covars, 
+                        deltas = fa_deltas, comparisons = fa_comparisons, alpha = fa_alpha),
     "Values less than"
   )
   
   
   expect_error(
-    check_strictly_positive_vals(dataf = f3, fa_comps),
+    check_strictly_positive_vals(dataf = f3, comps = fa_comps),
     "Values less than"
   )
   expect_error(
-    predict_delta_comps(dataf = f3, fa_y, fa_comps, fa_covars, fa_deltas, fa_comparisons, fa_alpha),
+    predict_delta_comps(dataf = f3, y = fa_y, comps = fa_comps, covars = fa_covars, 
+                        deltas = fa_deltas, comparisons = fa_comparisons, alpha = fa_alpha),
     "Values less than"
   )
   

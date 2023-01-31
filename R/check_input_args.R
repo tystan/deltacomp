@@ -6,6 +6,7 @@
 #' @param dataf A \code{data.frame} containing data
 #' @param y Name (as string/character vector of length 1) of outcome variable in \code{dataf}
 #' @param comps Character vector of names of compositions in \code{dataf}. See details for more information.
+#' @param comps_fup Character vector of names of compositions at follow up in \code{dataf}. See details for more information.
 #' @param covars Character vector of covariates names  (non-comp variables) in \code{dataf} or NULL for none (default).
 #' @param deltas A vector of time-component changes (as proportions of compositions , i.e., values between -1 and 1). Optional. 
 #' @export
@@ -22,10 +23,7 @@
 # 
 # 
 
-
-
-
-check_input_args <- function(dataf, y, comps, covars, deltas) {
+check_input_args <- function(dataf, y, comps, comps_fup, covars, deltas) {
   
   
   if (!is.data.frame(dataf)) {
@@ -44,6 +42,14 @@ check_input_args <- function(dataf, y, comps, covars, deltas) {
     stop("Please supply a character string of the compositional component column names in dataf.")
   } else if (length(comps) < 2) {
     stop("At least two compositional components are required to create an ilr linear regression.")
+  }
+  
+  if (!is_null_or_na(comps_fup)) {
+    if (!is.character(comps_fup)) {
+      stop("Please supply a character string of the compositional component column names in dataf.")
+    } else if (length(comps_fup) < 2) {
+      stop("At least two compositional components are required to create an ilr linear regression.")
+    }
   }
   
   if (!is_null_or_na(covars) & !is.character(covars)) {

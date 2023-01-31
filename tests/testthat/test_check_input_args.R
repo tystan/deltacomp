@@ -57,30 +57,36 @@ test_that("predict_delta_comps() correctly throws errors via check_input_args() 
   )
   
   expect_error(
-    predict_delta_comps(dataf = fairclough, fa_y, "sed", fa_covars, fa_deltas, fa_comparisons, fa_alpha),
+    predict_delta_comps(dataf = fairclough, y = fa_y, comps = "sed", covars = fa_covars, 
+                        deltas = fa_deltas, comparisons = fa_comparisons, alpha = fa_alpha),
     "At least two compositional components"
   )
   
   expect_error(
-    predict_delta_comps(dataf = fairclough, fa_y, fa_comps, 1, fa_deltas, fa_comparisons, fa_alpha),
+    predict_delta_comps(dataf = fairclough, y = fa_y, comps = fa_comps, covars = 1, 
+                        deltas = fa_deltas, comparisons = fa_comparisons, alpha = fa_alpha),
     "Please supply a character string of the covariate"
   )
   expect_error(
-    predict_delta_comps(dataf = fairclough, fa_y, fa_comps, TRUE, fa_deltas, fa_comparisons, fa_alpha),
+    predict_delta_comps(dataf = fairclough, y = fa_y, comps = fa_comps, covars = TRUE, 
+                        deltas = fa_deltas, comparisons = fa_comparisons, alpha = fa_alpha),
     "Please supply a character string of the covariate"
   )
   
   expect_error(
-    predict_delta_comps(dataf = fairclough, fa_y, fa_comps, fa_covars, -1.1, fa_comparisons, fa_alpha),
+    predict_delta_comps(dataf = fairclough, y = fa_y, comps = fa_comps, covars = fa_covars, 
+                        deltas = -1.1, comparisons = fa_comparisons, alpha = fa_alpha),
     "deltas must be specified as positive and negative proportions"
   )
   expect_error(
-    predict_delta_comps(dataf = fairclough, fa_y, fa_comps, fa_covars, +1.1, fa_comparisons, fa_alpha),
+    predict_delta_comps(dataf = fairclough, y = fa_y, comps = fa_comps, covars = fa_covars, 
+                        deltas = +1.1, comparisons = fa_comparisons, alpha = fa_alpha),
     "deltas must be specified as positive and negative proportions"
   )
   
   expect_error(
-    predict_delta_comps(dataf = fairclough[1:6, ], fa_y, fa_comps, fa_covars, fa_deltas, fa_comparisons, fa_alpha),
+    predict_delta_comps(dataf = fairclough[1:6,], y = fa_y, comps = fa_comps, covars = fa_covars, 
+                        deltas = fa_deltas, comparisons = fa_comparisons, alpha = fa_alpha),
     "The number of rows.*"
   )
 

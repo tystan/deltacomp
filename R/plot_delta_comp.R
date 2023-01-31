@@ -53,7 +53,7 @@ globalVariables(c(
 
 
 plot_delta_comp <- function(dc_obj, comp_total = NULL, units_lab = NULL) {
-
+  
   if (!is_deltacomp_obj(dc_obj)) {
     stop("Input needs to be a deltacomp object. i.e., data.frame returned by predict_delta_comps().")
   }
@@ -104,7 +104,7 @@ plot_delta_comp <- function(dc_obj, comp_total = NULL, units_lab = NULL) {
     ) +
     theme(legend.position = "none")
   
-
+  
   if (comparisons == "one-v-one") {
     ggp <- ggp +
       facet_grid(`comp-` ~ `comp+`, labeller = label_parsed)
@@ -114,10 +114,6 @@ plot_delta_comp <- function(dc_obj, comp_total = NULL, units_lab = NULL) {
   }
   
   return(ggp)
-
-
+  
+  
 }
-
-
-
-

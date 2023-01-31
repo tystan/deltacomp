@@ -36,7 +36,8 @@ test_that("rm_na_data_rows() correctly removes NAs", {
     f1[-c(5, 10, 6, 2), c(fa_y, fa_comps, fa_covars)]
   )
   expect_error(
-    predict_delta_comps(dataf = f1, fa_y, fa_comps, fa_covars, fa_deltas, fa_comparisons, fa_alpha),
+    predict_delta_comps(dataf = f1, y = fa_y, comps = fa_comps, covars = fa_covars, 
+                        deltas = fa_deltas, comparisons = fa_comparisons, alpha = fa_alpha),
     "The number of rows in dataf"
   )
   
@@ -45,7 +46,8 @@ test_that("rm_na_data_rows() correctly removes NAs", {
     f2[0,  c(fa_y, fa_comps, fa_covars)]
   )  
   expect_error(
-    predict_delta_comps(dataf = f2, fa_y, fa_comps, fa_covars, fa_deltas, fa_comparisons, fa_alpha),
+    predict_delta_comps(dataf = f2, y = fa_y, comps = fa_comps, covars = fa_covars, 
+                        deltas = fa_deltas, comparisons = fa_comparisons, alpha = fa_alpha),
     "dataf supplied must"
   )
   
